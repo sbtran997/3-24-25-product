@@ -44,6 +44,12 @@ Contributors names and contact info
 
 ex. Dominique Pizzie  
 ex. [@DomPizzie](https://twitter.com/dompizzie)
+Trevor Bean
+Steven Tran
+Sean Ropp
+Anthony Pontious
+Bricen Ford
+Elise Alvarado
 
 ## Version History
 
@@ -56,6 +62,13 @@ ex. [@DomPizzie](https://twitter.com/dompizzie)
 ## License
 
 This project is licensed under the [NAME HERE] License - see the LICENSE.md file for details
+
+## APIs
+
+Yahoo Finance API
+Google Calendar API
+OpenAI API (or other AI models)
+Google Maps API
 
 ## Acknowledgments
 
