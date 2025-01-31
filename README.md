@@ -1,11 +1,15 @@
 # SoftwareGroupN_CS3203_SPRING2025
-# Project Title
+# Travel Buddy
 
-Simple overview of use/purpose.
+Our AI Travel Planner is a smart travel assistant designed to help users organize their trips efficiently. With AI-powered recommendations, budget tracking, and GPS integration, planning and managing travel has never been easier.
 
-## Description
+## Features
 
-An in-depth paragraph about your project and overview of use.
+Budget Planning: Set a budget for your trip and track expenses to stay within limits.
+Calendar Integration: Plan your itinerary with a built-in calendar to track key dates.
+GPS Integration: View your current location on a map and explore nearby attractions.
+AI Assistance: Get personalized travel suggestions based on preferences and budget.
+Currency Conversion: Use the currency conversion calculator to see how much your money is worth at your destination. 
 
 ## Getting Started
 
