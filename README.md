@@ -5,11 +5,11 @@ Our AI Travel Planner is a smart travel assistant designed to help users organiz
 
 ## Features
 
-Budget Planning: Set a budget for your trip and track expenses to stay within limits.
-Calendar Integration: Plan your itinerary with a built-in calendar to track key dates.
-GPS Integration: View your current location on a map and explore nearby attractions.
-AI Assistance: Get personalized travel suggestions based on preferences and budget.
-Currency Conversion: Use the currency conversion calculator to see how much your money is worth at your destination. 
+Budget Planning: Set a budget for your trip and track expenses to stay within limits.<br/>
+Calendar Integration: Plan your itinerary with a built-in calendar to track key dates.<br/>
+GPS Integration: View your current location on a map and explore nearby attractions.<br/>
+AI Assistance: Get personalized travel suggestions based on preferences and budget.<br/>
+Currency Conversion: Use the currency conversion calculator to see how much your money is worth at your destination.<br/> 
 
 ## Getting Started
 
