@@ -42,14 +42,12 @@ command to run if program contains helper info
 
 Contributors names and contact info
 
-ex. Dominique Pizzie  
-ex. [@DomPizzie](https://twitter.com/dompizzie)
-Trevor Bean
-Steven Tran
-Sean Ropp
-Anthony Pontious
-Bricen Ford
-Elise Alvarado
+ex. Trevor Bean
+ex. Steven Tran
+ex. Sean Ropp
+ex. Anthony Pontious
+ex. Bricen Ford
+ex. Elise Alvarado
 
 ## Version History
 
