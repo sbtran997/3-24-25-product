@@ -42,12 +42,12 @@ command to run if program contains helper info
 
 Contributors names and contact info
 
-ex. Trevor Bean
-ex. Steven Tran
-ex. Sean Ropp
-ex. Anthony Pontious
-ex. Bricen Ford
-ex. Elise Alvarado
+Trevor Bean <br />
+Steven Tran <br />
+Sean Ropp <br />
+Anthony Pontious <br />
+Bricen Ford <br />
+Elise Alvarado <br />
 
 ## Version History
 
