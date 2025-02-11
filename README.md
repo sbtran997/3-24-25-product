@@ -28,7 +28,7 @@ Our AI Travel Planner is a smart travel assistant designed to help users organiz
 
 - Link: odinsean.github.io/SoftwareGroupN_CS3203_SPRING2025
 
-## Help
+## Help 🆘
 
 - Q: AI recommendations failing?
 ✅ Verify Xenova model loading in browser console
