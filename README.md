@@ -48,7 +48,7 @@ Our AI Travel Planner is a smart travel assistant designed to help users organiz
 
 ## APIs/Technologies Used 🛠️
                                
-- Google Maps API	      
+- OpenStreetMap	      
 - Google Calendar API	        	
 - Xenova GPT-2	        	            
 - Yahoo Finance API	            
