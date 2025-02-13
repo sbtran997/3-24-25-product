@@ -48,11 +48,11 @@ Elise Alvarado <br />
 
 ## APIs/Technologies Used 🛠️
 
-### Service	         Use Case	                    
-Google Maps API	   Location services & mapping	
-Google Calendar API	Itinerary management      	
-Xenova GPT-2	      AI recommendations	            
-Yahoo Finance API	   Currency conversion	        
+**Service**	            **Use Case**	                    
+- Google Maps API	      Location services & mapping	
+- Google Calendar API	  Itinerary management      	
+- Xenova GPT-2	        AI recommendations	            
+- Yahoo Finance API	    Currency conversion	        
 
 ## Version History
 
