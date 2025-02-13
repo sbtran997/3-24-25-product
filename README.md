@@ -37,18 +37,17 @@ Our AI Travel Planner is a smart travel assistant designed to help users organiz
 
 ## Authors ✍️
 
-Contributors names and contact info
+### Contributors names 
 
-Trevor Bean <br />
-Steven Tran <br />
-Sean Ropp <br />
-Anthony Pontious <br />
-Bricen Ford <br />
-Elise Alvarado <br />
+- Trevor Bean <br />
+- Steven Tran <br />
+- Sean Ropp <br />
+- Anthony Pontious <br />
+- Bricen Ford <br />
+- Elise Alvarado <br />
 
 ## APIs/Technologies Used 🛠️
-
-**Service**	                               
+                               
 - Google Maps API	      
 - Google Calendar API	        	
 - Xenova GPT-2	        	            
