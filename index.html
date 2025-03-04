@@ -1,124 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Travel Planner</title>
-    <script src="https://mlc.ai/web-llm/dist/index.js"></script>
-    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            display: flex;
-            height: 100vh;
-            overflow: hidden;
-            background-color: #121212;
-            color: #e0e0e0;
-        }
-        #map {
-            flex: 2;
-            height: 100vh;
-        }
-        #chat-container {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            padding: 20px;
-            background: #1e1e1e;
-            box-shadow: -2px 0 5px rgba(0,0,0,0.3);
-            border-left: 1px solid #333;
-        }
-        h1 {
-            text-align: center;
-            font-size: 1.8em;
-            margin-bottom: 20px;
-            color: #ffffff;
-        }
-        textarea {
-            width: 100%;
-            height: 100px;
-            margin-top: 10px;
-            padding: 15px;
-            border: 1px solid #444;
-            background-color: #2c2c2c;
-            color: #e0e0e0;
-            border-radius: 5px;
-            font-size: 16px;
-        }
-        textarea:focus {
-            outline: none;
-            border-color: #007bff;
-        }
-        button {
-            padding: 12px;
-            font-size: 16px;
-            margin-top: 15px;
-            background: #007bff;
-            color: white;
-            border: none;
-            cursor: pointer;
-            border-radius: 5px;
-        }
-        button:hover {
-            background: #0056b3;
-        }
-        #response {
-            margin-top: 20px;
-            padding: 15px;
-            border: 1px solid #444;
-            background: #2c2c2c;
-            border-radius: 5px;
-            flex-grow: 1;
-            overflow-y: auto;
-            color: #e0e0e0;
-        }
-    </style>
-</head>
-<body>
-    <div id="map"></div>
-    <div id="chat-container">
-        <h1>AI Travel Planner</h1>
-        <textarea id="userInput" placeholder="Ask for travel plans..."></textarea>
-        <button onclick="askAI()">Ask AI</button>
-        <div id="response">AI Response will appear here...</div>
-    </div>
-
-    <script>
-        // Initialize Map
-        var map = L.map('map').setView([40.7128, -74.0060], 10);
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '&copy; OpenStreetMap contributors'
-        }).addTo(map);
-
-        // AI Chatbot
-        async function askAI() {
-            const inputText = document.getElementById("userInput").value;
-            console.log("Input received:", inputText); // Log the input for debugging
-            document.getElementById("response").innerText = "Thinking...";
-
-            try {
-                const ai = new WebLLM.ChatModule();
-                await ai.init();
-                const response = await ai.chat(inputText);
-                console.log("AI Response:", response); // Log the response for debugging
-                document.getElementById("response").innerText = response;
-            } catch (error) {
-                console.error("Error communicating with the AI:", error);
-                document.getElementById("response").innerText = "There was an error processing your request.";
-            }
-        }
-
-        // Simulated AI response (for testing if AI is taking too long)
-        // async function askAI() {
-        //     const inputText = document.getElementById("userInput").value;
-        //     console.log("Input received:", inputText); // Log the input for debugging
-        //     document.getElementById("response").innerText = "Thinking...";
-        //     setTimeout(() => {
-        //         document.getElementById("response").innerText = "This is a sample AI response!";
-        //     }, 1000);
-        // }
-    </script>
-</body>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>AI Travel Planner</title>
+        <script src="https://mlc.ai/web-llm/dist/index.js"></script>
+        <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+        <script src="script.js" defer></script>
+        <link rel="stylesheet" href="styles.css">
+        <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    </head>
+    <body>
+        <div id="map"></div>
+        <div id="chat-container">
+            <h1>AI Travel Planner</h1>
+            <textarea id="userInput" placeholder="Ask for travel plans..."></textarea>
+            <button onclick="askAI()">Ask AI</button>
+            <div id="response">AI Response will appear here...</div>
+        </div>
+    </body>
 </html>
