@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Travel Checklist</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .checklist {
+      list-style-type: none;
+      padding: 0;
+    }
+    .checklist li {
+      margin: 10px 0;
+      padding: 10px;
+      background-color: #f5f5f5;
+      border-radius: 5px;
+      display: flex;
+      align-items: center;
+    }
+    input[type="checkbox"]:checked + input[type="text"] {
+      text-decoration: line-through;
+      color: #888;
+    }
+    .checklist input[type="text"] {
+      margin-left: 10px;
+      flex-grow: 1;
+      border: none;
+      background: transparent;
+      padding: 5px;
+    }
+    .delete-btn {
+      margin-left: 10px;
+      cursor: pointer;
+      color: #ff4444;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Editable Travel Checklist</h1>
+    
+    <div id="controls">
+      <input type="text" id="newItem" placeholder="Enter new item...">
+      <button onclick="addItem()">Add Item</button>
+      <button onclick="resetChecklist()">Reset All</button>
+    </div>
+    
+    <ul class="checklist" id="checklist"></ul>
+    
+    <div style="margin-top: 20px;">
+      <a href="index.html">
+        <button style="background: #6c757d;">Back to Main Page</button>
+      </a>
+    </div>
+  </div>
+
+  <script>
+    // Load saved items on page load
+    document.addEventListener('DOMContentLoaded', loadChecklist);
+
+    function createListItem(text = '', checked = false) {
+      const id = Date.now().toString(); // Unique ID
+      const li = document.createElement('li');
+      li.innerHTML = `
+        <input type="checkbox" id="${id}" ${checked ? 'checked' : ''}>
+        <input type="text" value="${text}" placeholder="Enter item...">
+        <span class="delete-btn" onclick="deleteItem(this)">✕</span>
+      `;
+      return li;
+    }
+
+    function addItem() {
+      const input = document.getElementById('newItem');
+      const checklist = document.getElementById('checklist');
+      
+      if (input.value.trim()) {
+        checklist.appendChild(createListItem(input.value));
+        input.value = '';
+        saveChecklist();
+      }
+    }
+
+    function deleteItem(element) {
+      element.parentElement.remove();
+      saveChecklist();
+    }
+
+    function resetChecklist() {
+      const checklist = document.getElementById('checklist');
+      checklist.innerHTML = '';
+      localStorage.removeItem('checklist');
+    }
+
+    function saveChecklist() {
+      const items = Array.from(document.querySelectorAll('.checklist li')).map(li => ({
+        text: li.querySelector('input[type="text"]').value,
+        checked: li.querySelector('input[type="checkbox"]').checked
+      }));
+      localStorage.setItem('checklist', JSON.stringify(items));
+    }
+
+    function loadChecklist() {
+      const savedItems = JSON.parse(localStorage.getItem('checklist')) || [];
+      const checklist = document.getElementById('checklist');
+      
+      savedItems.forEach(item => {
+        const li = createListItem(item.text, item.checked);
+        checklist.appendChild(li);
+      });
+    }
+
+    // Save on any change
+    document.getElementById('checklist').addEventListener('input', saveChecklist);
+    document.getElementById('checklist').addEventListener('change', saveChecklist);
+  </script>
+</body>
+</html>
