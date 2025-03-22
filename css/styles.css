@@ -64,3 +64,37 @@ button:hover {
     overflow-y: auto;
     color: #e0e0e0;
 }
+.button-group {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.button-group form {
+    display: flex;
+    flex: 1;
+}
+
+.checklist-button {
+    display: flex;
+    flex: 1;
+    align-items: center;
+    justify-content: center;
+    padding: 12px;
+    font-size: 16px;
+    background: #28a745;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.checklist-button:hover {
+    background: #218838;
+    color: white;
+}
+
+.button-group > form > button {
+    width: 100%;
+    margin-top: 0;
+}
