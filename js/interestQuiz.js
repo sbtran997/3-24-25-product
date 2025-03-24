@@ -1,60 +1,5 @@
-// Default context if user hasn't taken the quiz
-const defaultContext = {
-    food: true,
-    sports: false,
-    beaches: true,
-    entertainment: false,
-    music: true,
-    budget: 500
-};
-
-// Load stored data or set default
-function getStoredData() {
-    let storedData = JSON.parse(localStorage.getItem("quizData"));
-    return storedData ? storedData : defaultContext;
-}
-
-// Display stored data
-function displayStoredData() {
-    let storedData = getStoredData();
-    let resultDiv = document.getElementById("stored-results");
-    
-    let interestsText = Object.keys(storedData)
-        .filter(key => storedData[key] === true && key !== "budget")
-        .join(", ") || "No interests selected";
-
-    let budgetText = storedData.budget ? `$${storedData.budget}` : "Not set";
-
-    resultDiv.innerHTML = `
-        <h3>Your Current Preferences:</h3>
-        <p><strong>Interests:</strong> ${interestsText}</p>
-        <p><strong>Budget:</strong> ${budgetText}</p>
-    `;
-    resultDiv.style.display = "block";
-}
-
-// Set default data if none exists
-if (!localStorage.getItem("quizData")) {
-    localStorage.setItem("quizData", JSON.stringify(defaultContext));
-}
-
-// Load current preferences when page loads
-window.addEventListener('DOMContentLoaded', (event) => {
-    let storedData = getStoredData();
-    
-    // Set checkboxes based on stored data
-    document.getElementById("interest-food").checked = storedData.food;
-    document.getElementById("interest-sports").checked = storedData.sports;
-    document.getElementById("interest-beaches").checked = storedData.beaches;
-    document.getElementById("interest-entertainment").checked = storedData.entertainment;
-    document.getElementById("interest-music").checked = storedData.music;
-    document.getElementById("budgetInput").value = storedData.budget;
-});
-
-// Submit quiz data and redirect
-// [Previous code remains the same until the submit event listener]
-
 document.getElementById("submit-quiz").addEventListener("click", function() {
+    // Collect user preferences
     let interests = {
         food: document.getElementById("interest-food").checked,
         sports: document.getElementById("interest-sports").checked,
@@ -64,16 +9,53 @@ document.getElementById("submit-quiz").addEventListener("click", function() {
         budget: parseFloat(document.getElementById("budgetInput").value.trim()) || 500
     };
 
+    // Validate at least one interest is selected
     if (!interests.food && !interests.sports && !interests.beaches && 
         !interests.entertainment && !interests.music) {
         alert("Please select at least one interest.");
         return;
     }
 
+    // Save preferences to localStorage
     localStorage.setItem("quizData", JSON.stringify(interests));
     
-    // Show confirmation before redirecting
-    if (confirm("Preferences saved successfully! Go to travel planner now?")) {
-        window.location.href = "../pages/map.html";
+    // Display the results
+    displayResults(interests);
+});
+
+function displayResults(interests) {
+    const resultsContainer = document.getElementById("results-container");
+    const preferencesDisplay = document.getElementById("preferences-display");
+    
+    // Build the display text
+    let selectedInterests = [];
+    for (const [key, value] of Object.entries(interests)) {
+        if (value && key !== "budget") {
+            selectedInterests.push(key.charAt(0).toUpperCase() + key.slice(1));
+        }
+    }
+    
+    const budgetText = interests.budget ? `$${interests.budget}` : "Not specified";
+    
+    preferencesDisplay.innerHTML = `
+        <p><strong>Interests:</strong> ${selectedInterests.join(", ") || "None selected"}</p>
+        <p><strong>Budget:</strong> ${budgetText}</p>
+    `;
+    
+    // Show the results container
+    resultsContainer.style.display = "block";
+    
+    // Scroll to results
+    resultsContainer.scrollIntoView({ behavior: 'smooth' });
+}
+
+// Handle the proceed button click
+document.addEventListener('DOMContentLoaded', function() {
+    // This ensures the element exists before we try to add the listener
+    const proceedButton = document.getElementById("proceed-button");
+    if (proceedButton) {
+        proceedButton.addEventListener("click", function() {
+            window.location.href = "../pages/map.html";
+        });
     }
 });
