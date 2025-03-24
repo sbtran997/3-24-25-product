@@ -192,6 +192,13 @@
                 });
             });
             budgetInput.addEventListener("input", updateDisplay);
+            budgetInput.addEventListener("input", function() {
+                // Clear both budget errors when typing
+                budgetError.style.display = 'none';
+                budgetBoundaryError.style.display = 'none';
+                budgetInput.style.borderColor = '#444'; // Reset border color
+                updateDisplay();
+            });
             
             // Load saved preferences
             const savedInterests = JSON.parse(localStorage.getItem("interests")) || [];
