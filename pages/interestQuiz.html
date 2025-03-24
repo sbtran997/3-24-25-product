@@ -105,6 +105,12 @@
             width: 100%;
             margin-bottom: 15px;
         }
+        .error-message {
+            color: #ff6b6b;
+            font-size: 14px;
+            margin-top: 5px;
+            display: none;
+        }
     </style>
 </head>
 <body>
@@ -124,7 +130,8 @@
             
             <div class="input-group">
                 <p>Enter your budget ($):</p>
-                <input type="number" id="budgetInput" placeholder="Enter budget" min="0" step="10">
+                    <input type="number" id="budgetInput" placeholder="Enter budget" min="0" step="10">
+                    <div id="budget-error" class="error-message">Please enter a valid budget amount ($10 minimum)
             </div>
             
             <textarea id="selections-display" readonly>Your selections will appear here...</textarea>
@@ -140,6 +147,7 @@
             const checkboxes = document.querySelectorAll("input[name='interest']");
             const budgetInput = document.getElementById("budgetInput");
             const display = document.getElementById("selections-display");
+            const budgetError = document.getElementById("budget-error");
             
             // Update display when inputs change
             function updateDisplay() {
@@ -150,6 +158,19 @@
                 
                 const budget = budgetInput.value || "Not specified";
                 display.value = `Selected Interests:\n${selected.join(", ") || "None"}\n\nBudget: $${budget}`;
+            }
+
+            // Enhanced validation function
+            function validateBudget() {
+                const budget = budgetInput.value.trim();
+                if (!budget || isNaN(budget) || budget < 10) {
+                    budgetError.style.display = 'block';
+                    budgetInput.style.borderColor = '#ff6b6b';
+                    return false;
+                }
+                budgetError.style.display = 'none';
+                budgetInput.style.borderColor = '#444';
+                return true;
             }
             
             // Set up event listeners
@@ -170,13 +191,25 @@
                     selectedInterests.push(cb.value);
                 });
                 
-                if(selectedInterests.length > 0) {
-                    localStorage.setItem("interests", JSON.stringify(selectedInterests));
-                    localStorage.setItem("travelBudget", budgetInput.value || "500");
-                    updateDisplay();
-                    alert("Thanks! We'll personalize your experience.");
-                } else {
+                // Validate inputs
+                if (selectedInterests.length === 0) {
                     alert("Please select at least one interest.");
+                    return;
+                }
+                
+                if (!validateBudget()) {
+                    return;
+                }
+                
+                // Save data
+                try {
+                    localStorage.setItem("interests", JSON.stringify(selectedInterests));
+                    localStorage.setItem("travelBudget", budgetInput.value);
+                    updateDisplay();
+                    alert("Preferences saved successfully!");
+                } catch (e) {
+                    console.error("Storage error:", e);
+                    alert("Couldn't save preferences. Please try again.");
                 }
             });
         });
