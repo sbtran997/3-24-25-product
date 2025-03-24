@@ -131,8 +131,8 @@
             <div class="input-group">
                 <p>Enter your budget ($):</p>
                     <input type="number" id="budgetInput" placeholder="Enter budget" min="0" step="10">
-                    <div id="budget-error" class="error-message">Please enter a valid budget amount ($10 minimum)
-                    <div id="budget-boundary-error" class="error-message">Please enter a realistic valid budget amount
+                    <div id="budget-error" class="error-message">Please enter a valid budget amount ($10 minimum) </div>
+                    <div id="budget-boundary-error" class="error-message">Please enter a realistic valid budget amount </div>
             </div>
             
             <textarea id="selections-display" readonly>Your selections will appear here...</textarea>
@@ -166,12 +166,11 @@
             function validateBudget() {
                 const budget = budgetInput.value.trim();
                 if (!budget || isNaN(budget) || budget < 10) {
-                    if (budget > 1000000000) {
-                        budgetBoundaryError.style.display = 'block';
-                        budgetInput.style.borderColor = '#ff6b6b';
-                        return false;
-                    }
                     budgetError.style.display = 'block';
+                    budgetInput.style.borderColor = '#ff6b6b';
+                    return false;
+                } else if (budget > 1000000000) {
+                    budgetBoundaryError.style.display = 'block';
                     budgetInput.style.borderColor = '#ff6b6b';
                     return false;
                 }
