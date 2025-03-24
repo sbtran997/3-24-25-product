@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const continueBtn = document.getElementById("continue-btn");
     const preferencesDisplay = document.getElementById("user-preferences");
 
-    // Default context if user skips the quiz
+    // Default context
     const defaultContext = {
         food: true,
         sports: false,
@@ -12,30 +12,6 @@ document.addEventListener("DOMContentLoaded", function () {
         music: true,
         budget: 500
     };
-
-    // Load stored data or set default
-    function getStoredData() {
-        let storedData = JSON.parse(localStorage.getItem("quizData"));
-        return storedData ? storedData : defaultContext;
-    }
-
-    // Show stored data
-    function displayStoredData() {
-        let storedData = getStoredData();
-        let resultDiv = document.getElementById("stored-results");
-
-        let interestsText = Object.keys(storedData)
-            .filter(key => storedData[key] === true && key !== "budget")
-            .join(", ") || "No interests selected";
-
-        let budgetText = storedData.budget ? `$${storedData.budget}` : "Not set";
-
-        resultDiv.innerHTML = `<strong>Your Interests:</strong> ${interestsText} <br> 
-                             <strong>Your Budget:</strong> ${budgetText}`;
-        
-        preferencesDisplay.style.display = "block";
-        continueBtn.style.display = "block";
-    }
 
     // Submit quiz data
     submitQuizBtn.addEventListener("click", function () {
@@ -48,7 +24,6 @@ document.addEventListener("DOMContentLoaded", function () {
             budget: parseFloat(document.getElementById("budgetInput").value.trim()) || defaultContext.budget
         };
 
-        // Ensure at least one interest is selected
         if (!interests.food && !interests.sports && !interests.beaches && 
             !interests.entertainment && !interests.music) {
             alert("Please select at least one interest.");
@@ -56,25 +31,41 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         localStorage.setItem("quizData", JSON.stringify(interests));
+        alert("Preferences saved successfully!");
+        
+        // Show the updated preferences
         displayStoredData();
     });
 
-    // Continue to travel planner
+    // Continue button always works
     continueBtn.addEventListener("click", function() {
         window.location.href = "../pages/map.html";
     });
 
-    // Set default data if none exists
-    if (!localStorage.getItem("quizData")) {
-        localStorage.setItem("quizData", JSON.stringify(defaultContext));
+    // Display current preferences
+    function displayStoredData() {
+        let storedData = JSON.parse(localStorage.getItem("quizData")) || defaultContext;
+        let resultDiv = document.getElementById("stored-results");
+
+        let interestsText = Object.keys(storedData)
+            .filter(key => storedData[key] === true && key !== "budget")
+            .join(", ") || "No interests selected";
+
+        let budgetText = storedData.budget ? `$${storedData.budget}` : "Not set";
+
+        resultDiv.innerHTML = `<strong>Your Interests:</strong> ${interestsText} <br> 
+                             <strong>Your Budget:</strong> ${budgetText}`;
     }
 
-    // Load current preferences
-    const storedData = getStoredData();
+    // Initialize form with current preferences
+    const storedData = JSON.parse(localStorage.getItem("quizData")) || defaultContext;
     document.getElementById("interest-food").checked = storedData.food;
     document.getElementById("interest-sports").checked = storedData.sports;
     document.getElementById("interest-beaches").checked = storedData.beaches;
     document.getElementById("interest-entertainment").checked = storedData.entertainment;
     document.getElementById("interest-music").checked = storedData.music;
     document.getElementById("budgetInput").value = storedData.budget;
+    
+    // Show current preferences on load
+    displayStoredData();
 });
