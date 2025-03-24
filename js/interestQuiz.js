@@ -64,7 +64,6 @@ document.getElementById("submit-quiz").addEventListener("click", function() {
         budget: parseFloat(document.getElementById("budgetInput").value.trim()) || 500
     };
 
-    // Ensure at least one interest is selected
     if (!interests.food && !interests.sports && !interests.beaches && 
         !interests.entertainment && !interests.music) {
         alert("Please select at least one interest.");
@@ -74,4 +73,12 @@ document.getElementById("submit-quiz").addEventListener("click", function() {
     localStorage.setItem("quizData", JSON.stringify(interests));
     alert("Preferences saved successfully!");
     displayStoredData();
+    
+    // Show the navigation button after successful submission
+    document.getElementById('go-to-map').style.display = 'block';
+});
+
+// New navigation button functionality
+document.getElementById('go-to-map').addEventListener('click', function() {
+    window.location.href = '../pages/map.html'; // Adjust path as needed
 });
