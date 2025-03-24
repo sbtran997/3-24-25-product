@@ -4,30 +4,238 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Travel Interest Quiz</title>
-    <link rel="stylesheet" href="interest-quiz.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #121212;
+            color: #e0e0e0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        
+        .quiz-container {
+            background: #1e1e1e;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.3);
+            width: 100%;
+            max-width: 400px;
+        }
+        
+        h1 {
+            text-align: center;
+            color: white;
+            margin-bottom: 20px;
+        }
+        
+        .quiz-content {
+            color: #e0e0e0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        label {
+            display: block;
+            margin: 15px 0;
+            cursor: pointer;
+            width: 100%;
+        }
+        
+        input[type="checkbox"] {
+            margin-right: 10px;
+            transform: scale(1.2);
+        }
+        
+        input[type="number"] {
+            width: 100px;
+            padding: 8px;
+            margin-top: 5px;
+            background: #2c2c2c;
+            border: 1px solid #444;
+            color: #e0e0e0;
+            border-radius: 5px;
+        }
+        
+        button {
+            padding: 12px;
+            margin-top: 20px;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 16px;
+            max-width: 100%;
+            box-sizing: border-box;
+        }
+        
+        button:hover {
+            background: #0056b3;
+        }
+        
+        #selections-display {
+            margin-top: 20px;
+            padding: 15px;
+            background: #2c2c2c;
+            border: 1px solid #444;
+            border-radius: 5px;
+            color: #e0e0e0;
+            height: 100px;
+            width: 100%;
+            resize: none;
+            box-sizing: border-box;
+        }
+        
+        .continue-btn {
+            background: #28a745;
+            margin-top: 15px;
+        }
+        
+        .continue-btn:hover {
+            background: #218838;
+        }
+        
+        .input-group {
+            width: 100%;
+            margin-bottom: 15px;
+        }
+        .error-message {
+            color: #ff6b6b;
+            font-size: 14px;
+            margin-top: 5px;
+            display: none;
+        }
+    </style>
 </head>
 <body>
     <div class="quiz-container">
         <h1>Travel Interest Quiz</h1>
         
         <div class="quiz-content">
-            <p>What topics are you most interested in?</p>
+            <div class="input-group">
+                <p>What topics are you most interested in?</p>
+                
+                <label><input type="checkbox" id="interest-food" name="interest" value="food"> Food</label>
+                <label><input type="checkbox" id="interest-sports" name="interest" value="sports"> Sports</label>
+                <label><input type="checkbox" id="interest-beaches" name="interest" value="beaches"> Beaches</label>
+                <label><input type="checkbox" id="interest-entertainment" name="interest" value="entertainment"> Entertainment</label>
+                <label><input type="checkbox" id="interest-music" name="interest" value="music"> Music</label>
+                <div id="interest-error" class="error-message">Please select at least one interest </div>
+            </div>
             
-            <label><input type="checkbox" id="interest-food" name="interest" value="food"> Food</label>
-            <label><input type="checkbox" id="interest-sports" name="interest" value="sports"> Sports</label>
-            <label><input type="checkbox" id="interest-beaches" name="interest" value="beaches"> Beaches</label>
-            <label><input type="checkbox" id="interest-entertainment" name="interest" value="entertainment"> Entertainment</label>
-            <label><input type="checkbox" id="interest-music" name="interest" value="music"> Music</label>
+            <div class="input-group">
+                <p>Enter your budget ($):</p>
+                    <input type="number" id="budgetInput" placeholder="Enter budget" min="0" step="10">
+                    <div id="budget-error" class="error-message">Please enter a valid budget amount ($10 minimum) </div>
+                    <div id="budget-boundary-error" class="error-message">Please enter a realistic valid budget amount </div>
+            </div>
             
-            <p>Enter your budget ($):</p>
-            <input type="number" id="budgetInput" placeholder="Enter budget" min="0" step="10">
+            <textarea id="selections-display" readonly>Your selections will appear here...</textarea>
             
             <button id="submit-quiz">Submit Preferences</button>
-            
-            <div id="stored-results"></div>
+            <button id="continue-btn" class="continue-btn" onclick="window.location.href='map.html'">Continue to Travel Planner</button>
         </div>
     </div>
 
-    <script src="interest-quiz.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const submitBtn = document.getElementById("submit-quiz");
+            const checkboxes = document.querySelectorAll("input[name='interest']");
+            const budgetInput = document.getElementById("budgetInput");
+            const display = document.getElementById("selections-display");
+            const interestError = document.getElementById("interest-error");
+            const budgetError = document.getElementById("budget-error");
+            const budgetBoundaryError = document.getElementById("budget-boundary-error");
+            
+            // Update display when inputs change
+            function updateDisplay() {
+                let selected = [];
+                checkboxes.forEach(cb => {
+                    if(cb.checked) selected.push(cb.value);
+                });
+                
+                const budget = budgetInput.value || "Not specified";
+                display.value = `Selected Interests:\n${selected.join(", ") || "None"}\n\nBudget: $${budget}`;
+            }
+
+            // Enhanced validation function
+            function validateBudget() {
+                const budget = budgetInput.value.trim();
+                if (!budget || isNaN(budget) || budget < 10) {
+                    budgetError.style.display = 'block';
+                    budgetInput.style.borderColor = '#ff6b6b';
+                    return false;
+                } else if (budget > 1000000000) {
+                    budgetBoundaryError.style.display = 'block';
+                    budgetInput.style.borderColor = '#ff6b6b';
+                    return false;
+                }
+                budgetError.style.display = 'none';
+                budgetInput.style.borderColor = '#444';
+                return true;
+            }
+            
+            // Set up event listeners
+            checkboxes.forEach(cb => cb.addEventListener("change", updateDisplay));
+            // Add event listeners to all checkboxes to clear error when clicked
+            checkboxes.forEach(checkbox => {
+                checkbox.addEventListener("change", function() {
+                    // Clear error when any checkbox changes
+                    interestError.style.display = 'none';
+                    updateDisplay();
+                });
+            });
+            budgetInput.addEventListener("input", updateDisplay);
+            budgetInput.addEventListener("input", function() {
+                // Clear both budget errors when typing
+                budgetError.style.display = 'none';
+                budgetBoundaryError.style.display = 'none';
+                budgetInput.style.borderColor = '#444'; // Reset border color
+                updateDisplay();
+            });
+            
+            // Load saved preferences
+            const savedInterests = JSON.parse(localStorage.getItem("interests")) || [];
+            checkboxes.forEach(cb => {
+                cb.checked = savedInterests.includes(cb.value);
+            });
+            updateDisplay();
+            
+            // Submit handler (matches your original)
+            submitBtn.addEventListener("click", function() {
+                let selectedInterests = [];
+                document.querySelectorAll("input[name='interest']:checked").forEach(cb => {
+                    selectedInterests.push(cb.value);
+                });
+                
+                // Validate inputs
+                if (selectedInterests.length === 0) {
+                    interestError.style.display = 'block';
+                    return;
+                }
+                
+                if (!validateBudget()) {
+                    return;
+                }
+                
+                // Save data
+                try {
+                    localStorage.setItem("interests", JSON.stringify(selectedInterests));
+                    localStorage.setItem("travelBudget", budgetInput.value);
+                    updateDisplay();
+                    alert("Preferences saved successfully!");
+                } catch (e) {
+                    console.error("Storage error:", e);
+                    alert("Couldn't save preferences. Please try again.");
+                }
+            });
+        });
+    </script>
 </body>
 </html>
