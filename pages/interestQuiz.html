@@ -183,6 +183,14 @@
             
             // Set up event listeners
             checkboxes.forEach(cb => cb.addEventListener("change", updateDisplay));
+            // Add event listeners to all checkboxes to clear error when clicked
+            checkboxes.forEach(checkbox => {
+                checkbox.addEventListener("change", function() {
+                    // Clear error when any checkbox changes
+                    interestError.style.display = 'none';
+                    updateDisplay();
+                });
+            });
             budgetInput.addEventListener("input", updateDisplay);
             
             // Load saved preferences
