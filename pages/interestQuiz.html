@@ -163,7 +163,7 @@
             // Enhanced validation function
             function validateBudget() {
                 const budget = budgetInput.value.trim();
-                if (!budget || isNaN(budget) || budget < 10) {
+                if (!budget || isNaN(budget) || budget < 10 || budget > 1000000000) {
                     budgetError.style.display = 'block';
                     budgetInput.style.borderColor = '#ff6b6b';
                     return false;
