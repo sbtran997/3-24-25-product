@@ -1,7 +1,5 @@
 document.addEventListener("DOMContentLoaded", function () {
     const submitQuizBtn = document.getElementById("submit-quiz");
-    const continueBtn = document.getElementById("continue-btn");
-    const preferencesDisplay = document.getElementById("user-preferences");
 
     // Default context
     const defaultContext = {
@@ -31,15 +29,8 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         localStorage.setItem("quizData", JSON.stringify(interests));
-        alert("Preferences saved successfully!");
-        
-        // Show the updated preferences
         displayStoredData();
-    });
-
-    // Continue button always works
-    continueBtn.addEventListener("click", function() {
-        window.location.href = "../pages/map.html";
+        alert("Preferences saved successfully!");
     });
 
     // Display current preferences
