@@ -1,5 +1,8 @@
 document.addEventListener("DOMContentLoaded", function () {
     const submitQuizBtn = document.getElementById("submit-quiz");
+    const budgetInput = document.getElementById("budgetInput");
+    const checkboxes = document.querySelectorAll("input[type='checkbox']");
+    const selectionsDisplay = document.getElementById("selections-display");
 
     // Default context
     const defaultContext = {
@@ -11,6 +14,26 @@ document.addEventListener("DOMContentLoaded", function () {
         budget: 500
     };
 
+    // Function to update selections display
+    function updateSelectionsDisplay() {
+        let selectedInterests = [];
+        checkboxes.forEach(checkbox => {
+            if (checkbox.checked) {
+                selectedInterests.push(checkbox.value);
+            }
+        });
+        
+        const budget = budgetInput.value || "Not specified";
+        
+        selectionsDisplay.value = `Selected Interests:\n${selectedInterests.join(", ") || "None"}\n\nBudget: $${budget}`;
+    }
+
+    // Update display when any input changes
+    checkboxes.forEach(checkbox => {
+        checkbox.addEventListener("change", updateSelectionsDisplay);
+    });
+    budgetInput.addEventListener("input", updateSelectionsDisplay);
+
     // Submit quiz data
     submitQuizBtn.addEventListener("click", function () {
         let interests = {
@@ -19,7 +42,7 @@ document.addEventListener("DOMContentLoaded", function () {
             beaches: document.getElementById("interest-beaches").checked,
             entertainment: document.getElementById("interest-entertainment").checked,
             music: document.getElementById("interest-music").checked,
-            budget: parseFloat(document.getElementById("budgetInput").value.trim()) || defaultContext.budget
+            budget: parseFloat(budgetInput.value.trim()) || defaultContext.budget
         };
 
         if (!interests.food && !interests.sports && !interests.beaches && 
@@ -29,24 +52,9 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         localStorage.setItem("quizData", JSON.stringify(interests));
-        displayStoredData();
         alert("Preferences saved successfully!");
+        updateSelectionsDisplay();
     });
-
-    // Display current preferences
-    function displayStoredData() {
-        let storedData = JSON.parse(localStorage.getItem("quizData")) || defaultContext;
-        let resultDiv = document.getElementById("stored-results");
-
-        let interestsText = Object.keys(storedData)
-            .filter(key => storedData[key] === true && key !== "budget")
-            .join(", ") || "No interests selected";
-
-        let budgetText = storedData.budget ? `$${storedData.budget}` : "Not set";
-
-        resultDiv.innerHTML = `<strong>Your Interests:</strong> ${interestsText} <br> 
-                             <strong>Your Budget:</strong> ${budgetText}`;
-    }
 
     // Initialize form with current preferences
     const storedData = JSON.parse(localStorage.getItem("quizData")) || defaultContext;
@@ -55,8 +63,8 @@ document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("interest-beaches").checked = storedData.beaches;
     document.getElementById("interest-entertainment").checked = storedData.entertainment;
     document.getElementById("interest-music").checked = storedData.music;
-    document.getElementById("budgetInput").value = storedData.budget;
+    budgetInput.value = storedData.budget;
     
     // Show current preferences on load
-    displayStoredData();
+    updateSelectionsDisplay();
 });
