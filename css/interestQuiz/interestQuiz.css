@@ -81,3 +81,21 @@ input[type="number"] {
     color: #e0e0e0;
     font-size: 14px;
 }
+
+/* Add this to your existing CSS */
+.continue-button {
+    display: inline-block;
+    padding: 12px 20px;
+    margin-top: 15px;
+    background: #28a745;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    text-align: center;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.continue-button:hover {
+    background: #218838;
+}
