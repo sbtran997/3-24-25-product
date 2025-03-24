@@ -24,10 +24,15 @@
             <p>Enter your budget ($):</p>
             <input type="number" id="budgetInput" placeholder="Enter budget" min="0" step="10">
             
+            <!-- Current Selections Display -->
+            <div class="current-selections">
+                <h3>Your Current Selections:</h3>
+                <textarea id="selections-display" readonly></textarea>
+            </div>
+            
             <button id="submit-quiz">Submit Preferences</button>
             
             <div id="user-preferences">
-                <div id="stored-results"></div>
                 <a href="../pages/map.html" class="continue-button">Continue to Travel Planner</a>
             </div>
         </div>
