@@ -5,10 +5,49 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../css/styles.css">
     <title>Travel Buddy</title>
+    <style>
+        /* Additional styles for the new button */
+        .button-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            margin-top: 30px;
+        }
+        
+        .start-button, .quiz-button {
+            display: inline-block;
+            padding: 12px 30px;
+            background-color: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 18px;
+            font-weight: bold;
+            transition: background-color 0.3s;
+            text-align: center;
+            min-width: 200px;
+        }
+        
+        .quiz-button {
+            background-color: #6c757d;
+        }
+        
+        .start-button:hover {
+            background-color: #0056b3;
+        }
+        
+        .quiz-button:hover {
+            background-color: #5a6268;
+        }
+    </style>
 </head>
 <body>
     <h1 class="heading">Travel Buddy</h1>
     
-    <a href="pages/map.html" class="start-button">Start now</a>
+    <div class="button-container">
+        <a href="pages/map.html" class="start-button">Start Planning</a>
+        <a href="pages/interest-quiz.html" class="quiz-button">Take Interest Quiz</a>
+    </div>
 </body>
 </html>
