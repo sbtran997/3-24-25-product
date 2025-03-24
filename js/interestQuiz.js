@@ -52,6 +52,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
 });
 
 // Submit quiz data and redirect
+// [Previous code remains the same until the submit event listener]
+
 document.getElementById("submit-quiz").addEventListener("click", function() {
     let interests = {
         food: document.getElementById("interest-food").checked,
@@ -62,7 +64,6 @@ document.getElementById("submit-quiz").addEventListener("click", function() {
         budget: parseFloat(document.getElementById("budgetInput").value.trim()) || 500
     };
 
-    // Ensure at least one interest is selected
     if (!interests.food && !interests.sports && !interests.beaches && 
         !interests.entertainment && !interests.music) {
         alert("Please select at least one interest.");
@@ -71,6 +72,8 @@ document.getElementById("submit-quiz").addEventListener("click", function() {
 
     localStorage.setItem("quizData", JSON.stringify(interests));
     
-    // Redirect to map.html after successful submission
-    window.location.href = "map.html"; // or "../pages/map.html" depending on your file structure
+    // Show confirmation before redirecting
+    if (confirm("Preferences saved successfully! Go to travel planner now?")) {
+        window.location.href = "../pages/map.html";
+    }
 });
