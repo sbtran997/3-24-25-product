@@ -126,6 +126,7 @@
                 <label><input type="checkbox" id="interest-beaches" name="interest" value="beaches"> Beaches</label>
                 <label><input type="checkbox" id="interest-entertainment" name="interest" value="entertainment"> Entertainment</label>
                 <label><input type="checkbox" id="interest-music" name="interest" value="music"> Music</label>
+                <div id="interest-error" class="error-message">Please select at least one interest </div>
             </div>
             
             <div class="input-group">
@@ -148,6 +149,7 @@
             const checkboxes = document.querySelectorAll("input[name='interest']");
             const budgetInput = document.getElementById("budgetInput");
             const display = document.getElementById("selections-display");
+            const interestError = document.getElementById("interest-error");
             const budgetError = document.getElementById("budget-error");
             const budgetBoundaryError = document.getElementById("budget-boundary-error");
             
@@ -199,7 +201,7 @@
                 
                 // Validate inputs
                 if (selectedInterests.length === 0) {
-                    alert("Please select at least one interest.");
+                    interestError.style.display = 'block';
                     return;
                 }
                 
