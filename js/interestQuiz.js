@@ -49,11 +49,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
     document.getElementById("interest-entertainment").checked = storedData.entertainment;
     document.getElementById("interest-music").checked = storedData.music;
     document.getElementById("budgetInput").value = storedData.budget;
-    
-    displayStoredData();
 });
 
-// Submit quiz data
+// Submit quiz data and redirect
 document.getElementById("submit-quiz").addEventListener("click", function() {
     let interests = {
         food: document.getElementById("interest-food").checked,
@@ -64,6 +62,7 @@ document.getElementById("submit-quiz").addEventListener("click", function() {
         budget: parseFloat(document.getElementById("budgetInput").value.trim()) || 500
     };
 
+    // Ensure at least one interest is selected
     if (!interests.food && !interests.sports && !interests.beaches && 
         !interests.entertainment && !interests.music) {
         alert("Please select at least one interest.");
@@ -71,14 +70,7 @@ document.getElementById("submit-quiz").addEventListener("click", function() {
     }
 
     localStorage.setItem("quizData", JSON.stringify(interests));
-    alert("Preferences saved successfully!");
-    displayStoredData();
     
-    // Show the navigation button after successful submission
-    document.getElementById('go-to-map').style.display = 'block';
-});
-
-// New navigation button functionality
-document.getElementById('go-to-map').addEventListener('click', function() {
-    window.location.href = '../pages/map.html'; // Adjust path as needed
+    // Redirect to map.html after successful submission
+    window.location.href = "map.html"; // or "../pages/map.html" depending on your file structure
 });
