@@ -7,10 +7,12 @@
     <link rel="stylesheet" href="interest-quiz.css">
 </head>
 <body>
-    <div class="quiz-container">
+    <header>
         <h1>Travel Interest Quiz</h1>
-        
-        <div class="quiz-content">
+    </header>
+
+    <div class="quiz-container">
+        <div class="popup-content">
             <p>What topics are you most interested in?</p>
             
             <label><input type="checkbox" id="interest-food" name="interest" value="food"> Food</label>
@@ -24,11 +26,9 @@
             
             <button id="submit-quiz">Submit Preferences</button>
             
-            <!-- Results and Proceed Button (initially hidden) -->
-            <div id="results-container" style="display: none;">
-                <h3>Your Travel Preferences</h3>
-                <div id="preferences-display"></div>
-                <button id="proceed-button" class="proceed-btn">Start Planning with AI</button>
+            <div id="user-preferences">
+                <div id="stored-results"></div>
+                <button id="continue-btn" style="display:none; margin-top:15px; background:#28a745;">Continue to Travel Planner</button>
             </div>
         </div>
     </div>
