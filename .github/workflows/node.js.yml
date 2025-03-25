@@ -1,4 +1,4 @@
-name: Node.js CI
+name: Node.js for Unit tests
 
 on:
   push:
