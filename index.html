@@ -27,27 +27,49 @@
             position: absolute;
             width: 100px;
             height: auto;
-            animation: orbitAndFly 12s linear infinite;
+            animation: orbitAndFly 16s linear infinite;
             z-index: 1;
             opacity: 0.9;
+            filter: drop-shadow(0 0 8px rgba(255,255,255,0.5));
         }
 
         /* Complex animation path */
         @keyframes orbitAndFly {
             0% {
+                transform: translate(-200px, 50vh) rotate(0deg);
+            }
+            10% {
                 transform: translate(50vw, 50vh) rotate(0deg);
             }
-            25% {
-                transform: translate(calc(50vw + 150px), calc(50vh - 150px)) rotate(-90deg);
+            30% {
+                transform: 
+                    translate(calc(50vw + 100px * cos(0deg)), 
+                    calc(50vh + 100px * sin(0deg))) 
+                    rotate(-360deg);
+            }
+            40% {
+                transform: 
+                    translate(calc(50vw + 150px * cos(90deg)), 
+                    calc(50vh + 150px * sin(90deg))) 
+                    rotate(-720deg);
             }
             50% {
-                transform: translate(50vw, calc(50vh - 300px)) rotate(-180deg);
+                transform: 
+                    translate(calc(50vw + 100px * cos(180deg)), 
+                    calc(50vh + 100px * sin(180deg))) 
+                    rotate(-1080deg);
             }
-            75% {
-                transform: translate(calc(50vw - 150px), calc(50vh - 150px)) rotate(-270deg);
+            60% {
+                transform: 
+                    translate(calc(50vw + 150px * cos(270deg)), 
+                    calc(50vh + 150px * sin(270deg))) 
+                    rotate(-1440deg);
+            }
+            70% {
+                transform: translate(50vw, 50vh) rotate(-1800deg);
             }
             100% {
-                transform: translate(calc(100vw + 100px), 50vh) rotate(-360deg);
+                transform: translate(calc(100vw + 200px), 50vh) rotate(-1800deg);
             }
         }
 
