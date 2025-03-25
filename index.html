@@ -22,58 +22,49 @@
             position: relative;
         }
 
-        /* Moving airplane image */
-        .airplane-img {
+        /* Animated airplane emoji */
+        .airplane {
             position: absolute;
-            width: 100px;
-            height: auto;
-            animation: orbitAndFly 16s linear infinite;
+            font-size: 40px;
+            animation: orbitAndFly 12s linear infinite;
             z-index: 1;
-            opacity: 0.9;
-            filter: drop-shadow(0 0 8px rgba(255,255,255,0.5));
+            filter: drop-shadow(0 0 8px rgba(0,0,0,0.3));
         }
 
-        /* Complex animation path */
         @keyframes orbitAndFly {
             0% {
-                transform: translate(-200px, 50vh) rotate(0deg);
+                transform: translateX(-100%) translateY(-50%);
+                left: -100px;
+                top: 50%;
             }
-            10% {
-                transform: translate(50vw, 50vh) rotate(0deg);
-            }
-            30% {
-                transform: 
-                    translate(calc(50vw + 100px * cos(0deg)), 
-                    calc(50vh + 100px * sin(0deg))) 
-                    rotate(-360deg);
+            20% {
+                transform: translateY(-50%) rotate(0deg);
+                left: 50%;
+                top: 50%;
             }
             40% {
                 transform: 
-                    translate(calc(50vw + 150px * cos(90deg)), 
-                    calc(50vh + 150px * sin(90deg))) 
-                    rotate(-720deg);
-            }
-            50% {
-                transform: 
-                    translate(calc(50vw + 100px * cos(180deg)), 
-                    calc(50vh + 100px * sin(180deg))) 
-                    rotate(-1080deg);
+                    translate(calc(-50% + 200px), calc(-50% - 150px))
+                    rotate(720deg);
             }
             60% {
                 transform: 
-                    translate(calc(50vw + 150px * cos(270deg)), 
-                    calc(50vh + 150px * sin(270deg))) 
-                    rotate(-1440deg);
+                    translate(calc(-50% - 200px), calc(-50% + 150px))
+                    rotate(1440deg);
             }
-            70% {
-                transform: translate(50vw, 50vh) rotate(-1800deg);
+            80% {
+                transform: translateY(-50%) rotate(1800deg);
+                left: 50%;
+                top: 50%;
             }
             100% {
-                transform: translate(calc(100vw + 200px), 50vh) rotate(-1800deg);
+                transform: translateX(100%) translateY(-50%);
+                left: 100%;
+                top: 50%;
             }
         }
 
-        /* Rest of the styles remain the same */
+        /* Rest of the styles */
         @keyframes gradientShift {
             0% { background-position: 0% 50%; }
             50% { background-position: 100% 50%; }
@@ -114,27 +105,10 @@
             background-color: rgba(255,255,255,0.25);
             box-shadow: 0 5px 15px rgba(0,0,0,0.2);
         }
-
-        .twilight {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(to bottom, 
-                rgba(255,165,0,0.1) 0%,
-                rgba(0,0,70,0.3) 100%);
-            pointer-events: none;
-            z-index: 1;
-        }
     </style>
 </head>
 <body>
-    <img src="https://www.freeiconspng.com/uploads/airplane-png-transparent-background-3.png" 
-         class="airplane-img" 
-         alt="Flying airplane">
-
-    <div class="twilight"></div>
+    <div class="airplane">✈️</div>
     
     <h1 class="heading">Travel Buddy</h1>
     
