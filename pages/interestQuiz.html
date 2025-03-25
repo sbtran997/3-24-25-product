@@ -183,38 +183,37 @@
             
             // Set up event listeners
             checkboxes.forEach(cb => cb.addEventListener("change", updateDisplay));
-            // Add event listeners to all checkboxes to clear error when clicked
             checkboxes.forEach(checkbox => {
                 checkbox.addEventListener("change", function() {
-                    // Clear error when any checkbox changes
                     interestError.style.display = 'none';
                     updateDisplay();
                 });
             });
             budgetInput.addEventListener("input", updateDisplay);
             budgetInput.addEventListener("input", function() {
-                // Clear both budget errors when typing
                 budgetError.style.display = 'none';
                 budgetBoundaryError.style.display = 'none';
-                budgetInput.style.borderColor = '#444'; // Reset border color
+                budgetInput.style.borderColor = '#444';
                 updateDisplay();
             });
             
             // Load saved preferences
             const savedInterests = JSON.parse(localStorage.getItem("interests")) || [];
+            const savedBudget = localStorage.getItem("travelBudget") || ""; // Load budget
+            
             checkboxes.forEach(cb => {
                 cb.checked = savedInterests.includes(cb.value);
             });
+            budgetInput.value = savedBudget; // Set budget value
             updateDisplay();
             
-            // Submit handler (matches your original)
+            // Submit handler
             submitBtn.addEventListener("click", function() {
                 let selectedInterests = [];
                 document.querySelectorAll("input[name='interest']:checked").forEach(cb => {
                     selectedInterests.push(cb.value);
                 });
                 
-                // Validate inputs
                 if (selectedInterests.length === 0) {
                     interestError.style.display = 'block';
                     return;
@@ -224,7 +223,6 @@
                     return;
                 }
                 
-                // Save data
                 try {
                     localStorage.setItem("interests", JSON.stringify(selectedInterests));
                     localStorage.setItem("travelBudget", budgetInput.value);
