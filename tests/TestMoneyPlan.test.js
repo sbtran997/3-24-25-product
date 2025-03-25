@@ -1,5 +1,5 @@
 
-const Money = require('../js/modules/MoneyPlan');
+const Money = require('../js/MoneyPlan');
 const { describe, test, expect } = require('@jest/globals');
 
 describe('Money', () => {
