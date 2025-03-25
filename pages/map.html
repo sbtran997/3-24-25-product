@@ -9,8 +9,31 @@
         <script src="../js/map.js" defer></script>
         <link rel="stylesheet" href="../css/styles.css">
         <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+        <style>
+            /* New home button styles */
+            .home-button {
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                z-index: 1000;
+                padding: 10px 20px;
+                background-color: #007bff;
+                color: white;
+                text-decoration: none;
+                border-radius: 5px;
+                font-size: 16px;
+                transition: background-color 0.3s;
+            }
+
+            .home-button:hover {
+                background-color: #0056b3;
+            }
+        </style>
     </head>
     <body>
+        <!-- Back to Home button -->
+        <a href="../index.html" class="home-button">Back to Home</a>
+
         <div id="map"></div>
         <div id="airplaneBookingAPI">
             <a href="flightBooking.html" id="airplaneBookingAPI">Book a flight</a>
@@ -20,13 +43,12 @@
             <textarea id="userInput" placeholder="Ask for travel plans..."></textarea>
             <button onclick="askAI()">Ask AI</button>
             <div id="response">AI Response will appear here...</div>
-        <div class="button-group">
-            <form action="plans.html">
-                <button type="submit">Save plan</button>
-            </form>
-            <a href="checklist.html" class="checklist-button">Travel Checklist
-            </a>
-        </div>
+            <div class="button-group">
+                <form action="plans.html">
+                    <button type="submit">Save plan</button>
+                </form>
+                <a href="checklist.html" class="checklist-button">Travel Checklist</a>
+            </div>
         </div>
     </body>
 </html>
