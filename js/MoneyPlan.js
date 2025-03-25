@@ -16,6 +16,10 @@ takeUserPreference() {
 
 createMoneyPlan() {
     // takes the int value from userPrefence coverts it to the type of curreny that the user will be using based on where they are traveling to.
+    if (this.money < 0) {
+        return "User has invaild amount of money!";
+    }
+    
     console.log(this.currentCurrency, this.newCurrency);
         if (this.currentCurrency === this.newCurrency) {
             return this.money; // No conversion needed
@@ -40,7 +44,7 @@ createMoneyPlan() {
         return this.money;
     }
 displayTotalCost() {
-        if (typeof this.money === "number") { // checks if the money is a number and if it is then it will display it with the users name and currency type
+        if (typeof this.money === "number" && this.money >= 0) { // checks if the money is a number and if it is then it will display it with the users name and currency type
             return `${this.user} has ${this.money.toFixed(2)} ${this.currentCurrency}`;
         } else {
             return "Invalid total cost!";
@@ -48,52 +52,5 @@ displayTotalCost() {
     }
 }
 
-// Test Cases
-function testTakeUserPreference() {
-    let user1 = new Money("Alice", 100, "USD", "USD");
-    console.log(user1.takeUserPreference()); // Should return 100
+module.exports = Money
 
-    let user2 = new Money("Bob", -50, "JPY", "USD");
-    console.log(user2.takeUserPreference()); // Should return "User has an invalid amount of money!"
-
-    let user3 = new Money("Jerry",100000000000000000000000000000, "USD", "EURO");
-    console.log(user3.takeUserPreference()); // Should return 100000000000000000000000000000
-
-    let user4 = new Money("Tom",-10000000000000000000000000000, "USD", "EURO");
-    console.log(user4.takeUserPreference()); // Should return -10000000000000000000000000000
-}
-
-function testCreateMoneyPlan() {
-    let user1 = new Money("Alice", 100, "USD", "EURO");
-    console.log(user1.createMoneyPlan()); // Convert USD to EURO
-
-    let user2 = new Money("Jerry", 100, "USD", "INVALID");
-    
-    console.log(user2.createMoneyPlan("")); // Invalid currency conversion
-    let user3 = new Money("Bob", 100, "USD", "USD");
-
-    console.log(user3.createMoneyPlan()); // No conversion should happen
-    let user4 = new Money("Harry",100000000000000000000000000000, "USD", "EURO");
-    console.log(user4.takeUserPreference()); // Should return 100000000000000000000000000000 * Exchange rate
-    
-    let user5 = new Money("Tom",-10000000000000000000000000000, "USD", "EURO");
-    console.log(user5.takeUserPreference()); // Should return User has invaild amount of Money!
-}
-
-function testDisplayTotalCost() {
-    let user1 = new Money("Alice", 150.75, "USD","USD");
-    console.log(user1.displayTotalCost()); // Should display formatted total
-
-    let user2 = new Money("Bob", "Invalid", "USD","USD");
-    console.log(user2.displayTotalCost()); // Should return "Invalid total cost!"
-
-    let user3 = new Money("Jerry",100000000000000000000000000000, "USD", "EURO");
-    console.log(user3.takeUserPreference()); // Should return 100000000000000000000000000000
-
-    let user4 = new Money("Tom",-10000000000000000000000000000, "USD", "EURO");
-    console.log(user4.takeUserPreference()); // Should return -10000000000000000000000000000
-}
-
-testTakeUserPreference();
-testCreateMoneyPlan();
-testDisplayTotalCost();
