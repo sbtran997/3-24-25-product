@@ -1,0 +1,40 @@
+# This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-nodejs
+
+name: Node.js for Unit tests
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [18.x, 20.x, 22.x]
+
+    steps:
+    - name: Check Repo
+      uses: actions/checkout@v4
+      with:
+        ref: main
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ matrix.node-version }}
+    - name: Initialize Node.js project
+      run: npm init -y
+    - name: Install Jest
+      run: npm install --save-dev jest
+    - name: Install Puppeteer
+      run: npm install puppeteer@latest
+    - run: npm install --save-dev @types/jest @types/puppeteer
+    - run: npm install  # Replaces npm ci since package-lock.json does not exist
+    - run: npm run build --if-present
+    - name: Run Jest Tests
+      run: npx jest tests/interestQuiz.test.js
