@@ -22,36 +22,32 @@
             position: relative;
         }
 
-        /* Moving airplane */
-        .airplane {
+        /* Moving airplane image */
+        .airplane-img {
             position: absolute;
             top: 30%;
-            left: -100px;
-            font-size: 40px;
+            left: -10%;
+            width: 150px;
+            height: auto;
             animation: fly 15s linear infinite;
             z-index: 1;
+            opacity: 0.9;
         }
 
         /* Day/Night gradient animation */
         @keyframes gradientShift {
-            0% {
-                background-position: 0% 50%;
-            }
-            50% {
-                background-position: 100% 50%;
-            }
-            100% {
-                background-position: 0% 50%;
-            }
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
 
         /* Airplane flight animation */
         @keyframes fly {
             0% {
-                transform: translateX(-100%) rotate(0deg);
+                transform: translateX(-100%) rotate(5deg);
             }
             100% {
-                transform: translateX(200vw) rotate(5deg);
+                transform: translateX(200vw) rotate(-5deg);
             }
         }
 
@@ -107,7 +103,11 @@
     </style>
 </head>
 <body>
-    <div class="airplane">✈️</div>
+    <!-- Transparent plane image (replace with your actual image URL) -->
+    <img src="https://www.freeiconspng.com/uploads/airplane-png-transparent-background-3.png" 
+         class="airplane-img" 
+         alt="Flying airplane">
+
     <div class="twilight"></div>
     
     <h1 class="heading">Travel Buddy</h1>
