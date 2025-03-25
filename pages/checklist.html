@@ -4,23 +4,63 @@
   <title>Travel Checklist</title>
   <link rel="stylesheet" href="../css/styles.css">
   <style>
+    /* Center everything vertically and horizontally */
     body {
-        justify-content: center;
+        display: flex;
+        flex-direction: column;
         align-items: center;
+        min-height: 100vh;
+        margin: 0;
+        padding: 20px;
+        box-sizing: border-box;
     }
 
     .container {
         width: 100%;
         max-width: 800px;
-        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
     }
+
+    #controls {
+        width: 100%;
+        max-width: 500px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 15px;
+        margin-bottom: 20px;
+    }
+
+    #newItem {
+        width: 100%;
+        padding: 12px;
+        box-sizing: border-box;
+    }
+
+    #controls button {
+        width: 100%;
+    }
+
+    /* Checklist list styling */
     .checklist {
-        list-style-type: none;
-        padding: 0;
         width: 100%;
         max-width: 600px;
-        margin: 0 auto;
+        padding: 0;
+        margin: 0;
     }
+
+    /* Back button container */
+    .back-container {
+        width: 100%;
+        max-width: 500px;
+        margin-top: 20px;
+        display: flex;
+        justify-content: center;
+    }
+
+    /* Existing checklist item styles */
     .checklist li {
         margin: 10px 0;
         padding: 10px;
@@ -29,23 +69,26 @@
         display: flex;
         align-items: center;
     }
+
     input[type="checkbox"]:checked + input[type="text"] {
-      text-decoration: line-through;
-      color: #888;
+        text-decoration: line-through;
+        color: #888;
     }
+
     .checklist input[type="text"] {
-      margin-left: 10px;
-      flex-grow: 1;
-      border: none;
-      background: transparent;
-      padding: 5px;
+        margin-left: 10px;
+        flex-grow: 1;
+        border: none;
+        background: transparent;
+        padding: 5px;
     }
+
     .delete-btn {
-      margin-left: 10px;
-      cursor: pointer;
-      color: #ff4444;
+        margin-left: 10px;
+        cursor: pointer;
+        color: #ff4444;
     }
-  </style>
+</style>
 </head>
 <body>
   <div class="container">
@@ -59,7 +102,7 @@
     
     <ul class="checklist" id="checklist"></ul>
     
-    <div style="margin-top: 20px;">
+    <div class="back-container">
       <a href="map.html">
         <button style="background: #6c757d;">Back to Main Page</button>
       </a>
