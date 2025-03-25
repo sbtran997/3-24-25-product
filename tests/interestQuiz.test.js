@@ -11,11 +11,14 @@ describe('Travel Interest Quiz Tests', () => {
       args: ['--no-sandbox', '--disable-setuid-sandbox']
     });
     page = await browser.newPage();
-    await page.goto(TEST_URL);
-    await page.waitForSelector('#interestQuiz');
+    
+    // Wait for actual elements that exist
+    await page.goto(TEST_URL, { waitUntil: 'networkidle2', timeout: 30000 });
+    await page.waitForSelector('.quiz-container', { visible: true, timeout: 15000 });
   }, 60000);
 
   beforeEach(async () => {
+    // Reset state using existing elements
     await page.evaluate(() => {
       localStorage.clear();
       document.querySelectorAll('input[type="checkbox"]').forEach(cb => {
@@ -23,6 +26,11 @@ describe('Travel Interest Quiz Tests', () => {
       });
       document.getElementById('budgetInput').value = '';
     });
+    
+    // Wait for reset to complete
+    await page.waitForFunction(
+      () => document.querySelectorAll('input[type="checkbox"]:checked').length === 0
+    );
   });
 
   afterAll(async () => {
@@ -30,23 +38,31 @@ describe('Travel Interest Quiz Tests', () => {
   });
 
   test('Basic form interaction', async () => {
-    // Test checkbox
+    // Test checkbox interaction
     await page.click('#interest-food');
     const isChecked = await page.$eval('#interest-food', cb => cb.checked);
     expect(isChecked).toBe(true);
 
     // Test budget input
-    await page.type('#budgetInput', '100');
+    await page.type('#budgetInput', '1000');
     const budgetValue = await page.$eval('#budgetInput', el => el.value);
-    expect(budgetValue).toBe('100');
+    expect(budgetValue).toBe('1000');
+
+    // Set up dialog handler
+    page.on('dialog', async dialog => {
+      await dialog.accept();
+    });
 
     // Test submit
     await page.click('#submit-quiz');
-    const alertText = await page.evaluate(() => {
-      return new Promise(resolve => {
-        window.alert = message => resolve(message);
-      });
-    });
-    expect(alertText).toContain('saved successfully');
+    
+    // Verify storage
+    const storage = await page.evaluate(() => ({
+      interests: localStorage.getItem('interests'),
+      budget: localStorage.getItem('travelBudget')
+    }));
+    
+    expect(JSON.parse(storage.interests)).toEqual(['food']);
+    expect(storage.budget).toBe('1000');
   }, 15000);
 });
