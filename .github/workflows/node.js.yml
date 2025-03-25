@@ -19,7 +19,7 @@ jobs:
     - name: Check Repo
       uses: actions/checkout@v4
       with:
-        ref: pages
+        ref: main
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v4
       with:
