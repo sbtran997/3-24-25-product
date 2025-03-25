@@ -11,16 +11,11 @@ describe('Travel Interest Quiz Tests', () => {
       args: ['--no-sandbox', '--disable-setuid-sandbox']
     });
     page = await browser.newPage();
-    
-    // Simplified navigation with increased timeout
-    await page.goto(TEST_URL, { waitUntil: 'networkidle2', timeout: 30000 });
-    
-    // Wait for any element that's always present
-    await page.waitForSelector('body', { visible: true, timeout: 15000 });
+    await page.goto(TEST_URL);
+    await page.waitForSelector('#interestQuiz');
   }, 60000);
 
   beforeEach(async () => {
-    // Fast reset without reload
     await page.evaluate(() => {
       localStorage.clear();
       document.querySelectorAll('input[type="checkbox"]').forEach(cb => {
