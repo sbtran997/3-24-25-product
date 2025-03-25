@@ -10,7 +10,7 @@ describe('Travel Checklist Tests', () => {
       args: ['--no-sandbox', '--disable-setuid-sandbox']
     });
     page = await browser.newPage();
-    await page.goto('https://treeborf.github.io/AITesting/checklist.html');
+    await page.goto('https://odinsean.github.io/SoftwareGroupN_CS3203_SPRING2025/pages/checklist.html');
     await page.waitForSelector('#checklist');
   }, 15000);
 
