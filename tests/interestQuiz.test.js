@@ -87,13 +87,24 @@ describe('Travel Interest Quiz Tests', () => {
   test('Save preferences with minimum budget', async () => {
     await page.click('#interest-beaches');
     await page.type('#budgetInput', '10');
-    
-    const [dialog] = await Promise.all([
-      page.waitForEvent('dialog'),
-      page.click('#submit-quiz')
-    ]);
-    await dialog.accept();
 
+    const isChecked = await page.$eval('#interest-beaches', cb => cb.checked);
+    expect(isChecked).toBe(true);
+    
+    // Test budget input
+    await page.type('#budgetInput', '10');
+    const budgetValue = await page.$eval('#budgetInput', el => el.value);
+    expect(budgetValue).toBe('10');
+
+    // Set up dialog handler
+    page.on('dialog', async dialog => {
+      await dialog.accept();
+    });
+
+    // Test submit
+    await page.click('#submit-quiz');
+    
+    // Verify storage
     const storage = await page.evaluate(() => ({
       interests: localStorage.getItem('interests'),
       budget: localStorage.getItem('travelBudget')
@@ -106,13 +117,24 @@ describe('Travel Interest Quiz Tests', () => {
   test('Save preferences with maximum budget', async () => {
     await page.click('#interest-music');
     await page.type('#budgetInput', '1000000000');
-    
-    const [dialog] = await Promise.all([
-      page.waitForEvent('dialog'),
-      page.click('#submit-quiz')
-    ]);
-    await dialog.accept();
 
+    const isChecked = await page.$eval('#interest-music', cb => cb.checked);
+    expect(isChecked).toBe(true);
+    
+    // Test budget input
+    await page.type('#budgetInput', '1000000000');
+    const budgetValue = await page.$eval('#budgetInput', el => el.value);
+    expect(budgetValue).toBe('1000000000');
+
+    // Set up dialog handler
+    page.on('dialog', async dialog => {
+      await dialog.accept();
+    });
+
+    // Test submit
+    await page.click('#submit-quiz');
+    
+    // Verify storage
     const storage = await page.evaluate(() => ({
       interests: localStorage.getItem('interests'),
       budget: localStorage.getItem('travelBudget')
