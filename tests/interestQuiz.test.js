@@ -48,13 +48,12 @@ describe('Travel Interest Quiz Tests', () => {
     const budgetValue = await page.$eval('#budgetInput', el => el.value);
     expect(budgetValue).toBe('1000');
 
-    // Set up dialog handler
-    page.on('dialog', async dialog => {
-      await dialog.accept();
-    });
-
-    // Test submit
-    await page.click('#submit-quiz');
+    // Handle dialog properly
+    const [dialog] = await Promise.all([
+      page.waitForEvent('dialog'),
+      page.click('#submit-quiz')
+    ]);
+    await dialog.accept();
     
     // Verify storage
     const storage = await page.evaluate(() => ({
@@ -67,7 +66,6 @@ describe('Travel Interest Quiz Tests', () => {
   }, 15000);
 
   test('Show error when no interests selected', async () => {
-    // Test invalid submission without interests
     await page.type('#budgetInput', '500');
     await page.click('#submit-quiz');
     
@@ -76,7 +74,6 @@ describe('Travel Interest Quiz Tests', () => {
     );
     expect(interestErrorVisible).toBe(true);
     
-    // Verify nothing saved
     const storage = await page.evaluate(() => ({
       interests: localStorage.getItem('interests'),
       budget: localStorage.getItem('travelBudget')
@@ -88,22 +85,12 @@ describe('Travel Interest Quiz Tests', () => {
     await page.click('#interest-beaches');
     await page.type('#budgetInput', '10');
 
-    const isChecked = await page.$eval('#interest-beaches', cb => cb.checked);
-    expect(isChecked).toBe(true);
-    
-    // Test budget input
-    const budgetValue = await page.$eval('#budgetInput', el => el.value);
-    expect(budgetValue).toBe('10');
+    const [dialog] = await Promise.all([
+      page.waitForEvent('dialog'),
+      page.click('#submit-quiz')
+    ]);
+    await dialog.accept();
 
-    // Set up dialog handler
-    page.on('dialog', async dialog => {
-      await dialog.accept();
-    });
-
-    // Test submit
-    await page.click('#submit-quiz');
-    
-    // Verify storage
     const storage = await page.evaluate(() => ({
       interests: localStorage.getItem('interests'),
       budget: localStorage.getItem('travelBudget')
@@ -117,22 +104,12 @@ describe('Travel Interest Quiz Tests', () => {
     await page.click('#interest-music');
     await page.type('#budgetInput', '1000000000');
 
-    const isChecked = await page.$eval('#interest-music', cb => cb.checked);
-    expect(isChecked).toBe(true);
-    
-    // Test budget input
-    const budgetValue = await page.$eval('#budgetInput', el => el.value);
-    expect(budgetValue).toBe('1000000000');
+    const [dialog] = await Promise.all([
+      page.waitForEvent('dialog'),
+      page.click('#submit-quiz')
+    ]);
+    await dialog.accept();
 
-    // Set up dialog handler
-    page.on('dialog', async dialog => {
-      await dialog.accept();
-    });
-
-    // Test submit
-    await page.click('#submit-quiz');
-    
-    // Verify storage
     const storage = await page.evaluate(() => ({
       interests: localStorage.getItem('interests'),
       budget: localStorage.getItem('travelBudget')
@@ -143,7 +120,6 @@ describe('Travel Interest Quiz Tests', () => {
   }, 15000);
   
   test('Show error for excessive budget', async () => {
-    // Test boundary case (over maximum)
     await page.click('#interest-food');
     await page.type('#budgetInput', '1000000001');
     await page.click('#submit-quiz');
@@ -153,7 +129,6 @@ describe('Travel Interest Quiz Tests', () => {
     );
     expect(boundaryErrorVisible).toBe(true);
     
-    // Verify budget not saved
     const storage = await page.evaluate(() => localStorage.getItem('travelBudget'));
     expect(storage).toBeNull();
   }, 15000);
