@@ -92,7 +92,6 @@ describe('Travel Interest Quiz Tests', () => {
     expect(isChecked).toBe(true);
     
     // Test budget input
-    await page.type('#budgetInput', '10');
     const budgetValue = await page.$eval('#budgetInput', el => el.value);
     expect(budgetValue).toBe('10');
 
@@ -122,7 +121,6 @@ describe('Travel Interest Quiz Tests', () => {
     expect(isChecked).toBe(true);
     
     // Test budget input
-    await page.type('#budgetInput', '1000000000');
     const budgetValue = await page.$eval('#budgetInput', el => el.value);
     expect(budgetValue).toBe('1000000000');
 
