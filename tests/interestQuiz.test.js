@@ -49,11 +49,16 @@ describe('Travel Interest Quiz Tests', () => {
     expect(budgetValue).toBe('1000');
 
     // Handle dialog properly
-    const [dialog] = await Promise.all([
-      page.waitForEvent('dialog'),
-      page.click('#submit-quiz')
+    const dialogPromise = new Promise(resolve => {
+        page.once('dialog', async dialog => {
+            await dialog.accept();
+            resolve();
+        });
+    });
+    await Promise.all([
+        dialogPromise,
+        page.click('#submit-quiz')
     ]);
-    await dialog.accept();
     
     // Verify storage
     const storage = await page.evaluate(() => ({
@@ -85,11 +90,17 @@ describe('Travel Interest Quiz Tests', () => {
     await page.click('#interest-beaches');
     await page.type('#budgetInput', '10');
 
-    const [dialog] = await Promise.all([
-      page.waitForEvent('dialog'),
-      page.click('#submit-quiz')
+    // Handle dialog properly
+    const dialogPromise = new Promise(resolve => {
+        page.once('dialog', async dialog => {
+            await dialog.accept();
+            resolve();
+        });
+    });
+    await Promise.all([
+        dialogPromise,
+        page.click('#submit-quiz')
     ]);
-    await dialog.accept();
 
     const storage = await page.evaluate(() => ({
       interests: localStorage.getItem('interests'),
@@ -104,11 +115,17 @@ describe('Travel Interest Quiz Tests', () => {
     await page.click('#interest-music');
     await page.type('#budgetInput', '1000000000');
 
-    const [dialog] = await Promise.all([
-      page.waitForEvent('dialog'),
-      page.click('#submit-quiz')
+    // Handle dialog properly
+    const dialogPromise = new Promise(resolve => {
+        page.once('dialog', async dialog => {
+            await dialog.accept();
+            resolve();
+        });
+    });
+    await Promise.all([
+        dialogPromise,
+        page.click('#submit-quiz')
     ]);
-    await dialog.accept();
 
     const storage = await page.evaluate(() => ({
       interests: localStorage.getItem('interests'),
