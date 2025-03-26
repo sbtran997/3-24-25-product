@@ -48,13 +48,17 @@ describe('Travel Interest Quiz Tests', () => {
     const budgetValue = await page.$eval('#budgetInput', el => el.value);
     expect(budgetValue).toBe('1000');
 
-    // Set up dialog handler
-    page.on('dialog', async dialog => {
-      await dialog.accept();
+    // Handle dialog properly
+    const dialogPromise = new Promise(resolve => {
+        page.once('dialog', async dialog => {
+            await dialog.accept();
+            resolve();
+        });
     });
-
-    // Test submit
-    await page.click('#submit-quiz');
+    await Promise.all([
+        dialogPromise,
+        page.click('#submit-quiz')
+    ]);
     
     // Verify storage
     const storage = await page.evaluate(() => ({
@@ -64,5 +68,85 @@ describe('Travel Interest Quiz Tests', () => {
     
     expect(JSON.parse(storage.interests)).toEqual(['food']);
     expect(storage.budget).toBe('1000');
+  }, 15000);
+
+  test('Show error when no interests selected', async () => {
+    await page.type('#budgetInput', '500');
+    await page.click('#submit-quiz');
+    
+    const interestErrorVisible = await page.$eval('#interest-error', el => 
+      window.getComputedStyle(el).display !== 'none'
+    );
+    expect(interestErrorVisible).toBe(true);
+    
+    const storage = await page.evaluate(() => ({
+      interests: localStorage.getItem('interests'),
+      budget: localStorage.getItem('travelBudget')
+    }));
+    expect(storage.interests).toBeNull();
+  }, 15000);
+
+  test('Save preferences with minimum budget', async () => {
+    await page.click('#interest-beaches');
+    await page.type('#budgetInput', '10');
+
+    // Handle dialog properly
+    const dialogPromise = new Promise(resolve => {
+        page.once('dialog', async dialog => {
+            await dialog.accept();
+            resolve();
+        });
+    });
+    await Promise.all([
+        dialogPromise,
+        page.click('#submit-quiz')
+    ]);
+
+    const storage = await page.evaluate(() => ({
+      interests: localStorage.getItem('interests'),
+      budget: localStorage.getItem('travelBudget')
+    }));
+    
+    expect(JSON.parse(storage.interests)).toEqual(['beaches']);
+    expect(storage.budget).toBe('10');
+  }, 15000);
+
+  test('Save preferences with maximum budget', async () => {
+    await page.click('#interest-music');
+    await page.type('#budgetInput', '1000000000');
+
+    // Handle dialog properly
+    const dialogPromise = new Promise(resolve => {
+        page.once('dialog', async dialog => {
+            await dialog.accept();
+            resolve();
+        });
+    });
+    await Promise.all([
+        dialogPromise,
+        page.click('#submit-quiz')
+    ]);
+
+    const storage = await page.evaluate(() => ({
+      interests: localStorage.getItem('interests'),
+      budget: localStorage.getItem('travelBudget')
+    }));
+    
+    expect(JSON.parse(storage.interests)).toEqual(['music']);
+    expect(storage.budget).toBe('1000000000');
+  }, 15000);
+  
+  test('Show error for excessive budget', async () => {
+    await page.click('#interest-food');
+    await page.type('#budgetInput', '1000000001');
+    await page.click('#submit-quiz');
+    
+    const boundaryErrorVisible = await page.$eval('#budget-boundary-error', el => 
+      window.getComputedStyle(el).display !== 'none'
+    );
+    expect(boundaryErrorVisible).toBe(true);
+    
+    const storage = await page.evaluate(() => localStorage.getItem('travelBudget'));
+    expect(storage).toBeNull();
   }, 15000);
 });
