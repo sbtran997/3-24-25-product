@@ -65,4 +65,72 @@ describe('Travel Interest Quiz Tests', () => {
     expect(JSON.parse(storage.interests)).toEqual(['food']);
     expect(storage.budget).toBe('1000');
   }, 15000);
+
+  test('Show error when no interests selected', async () => {
+    // Test invalid submission without interests
+    await page.type('#budgetInput', '500');
+    await page.click('#submit-quiz');
+    
+    const interestErrorVisible = await page.$eval('#interest-error', el => 
+      window.getComputedStyle(el).display !== 'none'
+    );
+    expect(interestErrorVisible).toBe(true);
+    
+    // Verify nothing saved
+    const storage = await page.evaluate(() => ({
+      interests: localStorage.getItem('interests'),
+      budget: localStorage.getItem('travelBudget')
+    }));
+    expect(storage.interests).toBeNull();
+  }, 15000);
+
+  test('Save preferences with minimum budget', async () => {
+    // Test edge case (minimum valid budget)
+    await page.click('#interest-beaches');
+    await page.type('#budgetInput', '10');
+    
+    page.on('dialog', async dialog => await dialog.accept());
+    await page.click('#submit-quiz');
+
+    const storage = await page.evaluate(() => ({
+      interests: localStorage.getItem('interests'),
+      budget: localStorage.getItem('travelBudget')
+    }));
+    
+    expect(JSON.parse(storage.interests)).toEqual(['beaches']);
+    expect(storage.budget).toBe('10');
+  }, 15000);
+
+  test('Save preferences with maximum budget', async () => {
+    // Test edge case (maximum valid budget)
+    await page.click('#interest-music');
+    await page.type('#budgetInput', '1000000000');
+    
+    page.on('dialog', async dialog => await dialog.accept());
+    await page.click('#submit-quiz');
+
+    const storage = await page.evaluate(() => ({
+      interests: localStorage.getItem('interests'),
+      budget: localStorage.getItem('travelBudget')
+    }));
+    
+    expect(JSON.parse(storage.interests)).toEqual(['music']);
+    expect(storage.budget).toBe('1000000000');
+  }, 15000);
+
+  test('Show error for excessive budget', async () => {
+    // Test boundary case (over maximum)
+    await page.click('#interest-food');
+    await page.type('#budgetInput', '1000000001');
+    await page.click('#submit-quiz');
+    
+    const boundaryErrorVisible = await page.$eval('#budget-boundary-error', el => 
+      window.getComputedStyle(el).display !== 'none'
+    );
+    expect(boundaryErrorVisible).toBe(true);
+    
+    // Verify budget not saved
+    const storage = await page.evaluate(() => localStorage.getItem('travelBudget'));
+    expect(storage).toBeNull();
+  }, 15000);
 });
