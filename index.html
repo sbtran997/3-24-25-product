@@ -3,10 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../css/styles.css">
     <title>Travel Buddy</title>
     <style>
-        /* Base styles */
         body {
             margin: 0;
             min-height: 100vh;
@@ -22,7 +20,109 @@
             position: relative;
         }
 
-        /* Animated airplane emoji */
+        /* Sun Styles */
+        .sun {
+            position: absolute;
+            top: 15%;
+            --scale: 0.3;
+            animation: sunJourney 15s linear infinite, rotate 4s linear infinite;
+            z-index: 0;
+        }
+
+        .center {
+            height: calc(var(--scale) * 10em);
+            width: calc(var(--scale) * 10em);
+            background-color: var(--color);
+            border-radius: 50%;
+            box-shadow: 0 0 calc(var(--scale) * 3em) var(--color);
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .ray {
+            position: absolute;
+            height: calc(var(--scale) * 3em);
+            width: calc(var(--scale) * 0.5em);
+            background-color: var(--color);
+            box-shadow: 0 0 calc(var(--scale) * 1em) var(--color);
+        }
+
+        /* Ray positions */
+        .r-1 { left: 47.5%; top: 10%; }
+        .r-2 { left: 90%; top: 40%; transform: rotate(90deg); }
+        .r-3 { left: 47.5%; top: 90%; }
+        .r-4 { left: 10%; top: 40%; transform: rotate(90deg); }
+        .r-5 { left: 25%; top: 25%; transform: rotate(45deg); }
+        .r-6 { left: 75%; top: 25%; transform: rotate(-45deg); }
+        .r-7 { left: 75%; top: 75%; transform: rotate(45deg); }
+        .r-8 { left: 25%; top: 75%; transform: rotate(-45deg); }
+
+        /* Moon Styles */
+        .moon {
+            position: absolute;
+            top: 15%;
+            width: 100px;
+            height: 100px;
+            animation: moonJourney 15s linear infinite;
+            opacity: 0;
+            z-index: 0;
+        }
+
+        .moon .loader {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: #f8f8f8;
+            border: 4px solid #e8e8e8;
+            box-shadow: 0 0 3px #e8e8e8;
+            filter: blur(0.4px);
+        }
+
+        .moon .shadow {
+            position: absolute;
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: radial-gradient(circle at 70% 50%, #1a2a6c, #000046);
+            top: -10px;
+            left: -10px;
+            animation: animate 4s infinite linear;
+        }
+
+        /* Animations */
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        @keyframes rotate {
+            0% { --color: yellow; }
+            100% { --color: orange; }
+        }
+
+        @keyframes sunJourney {
+            0% { transform: translateX(100vw); opacity: 1; }
+            50% { transform: translateX(-100vw); opacity: 0; }
+            100% { transform: translateX(-100vw); opacity: 0; }
+        }
+
+        @keyframes moonJourney {
+            0% { transform: translateX(100vw); opacity: 0; }
+            50% { transform: translateX(100vw); opacity: 1; }
+            100% { transform: translateX(-100vw); opacity: 1; }
+        }
+
+        @keyframes animate {
+            0% { transform: translateX(150px); opacity: 0.8; }
+            50% { transform: translateX(-10px); opacity: 0.4; }
+            100% { transform: translateX(-170px); opacity: 0.8; }
+        }
+
+        /* Airplane Styles */
         .airplane {
             position: absolute;
             font-size: 40px;
@@ -32,45 +132,15 @@
         }
 
         @keyframes orbitAndFly {
-            0% {
-                transform: translateX(-100%) translateY(-50%);
-                left: -100px;
-                top: 50%;
-            }
-            20% {
-                transform: translateY(-50%) rotate(0deg);
-                left: 50%;
-                top: 50%;
-            }
-            40% {
-                transform: 
-                    translate(calc(-50% + 200px), calc(-50% - 150px))
-                    rotate(720deg);
-            }
-            60% {
-                transform: 
-                    translate(calc(-50% - 200px), calc(-50% + 150px))
-                    rotate(1440deg);
-            }
-            80% {
-                transform: translateY(-50%) rotate(1800deg);
-                left: 50%;
-                top: 50%;
-            }
-            100% {
-                transform: translateX(100%) translateY(-50%);
-                left: 100%;
-                top: 50%;
-            }
+            0% { transform: translateX(-100%) translateY(-50%); left: -100px; top: 50%; }
+            20% { transform: translateY(-50%) rotate(0deg); left: 50%; top: 50%; }
+            40% { transform: translate(calc(-50% + 200px), calc(-50% - 150px)) rotate(720deg); }
+            60% { transform: translate(calc(-50% - 200px), calc(-50% + 150px)) rotate(1440deg); }
+            80% { transform: translateY(-50%) rotate(1800deg); left: 50%; top: 50%; }
+            100% { transform: translateX(100%) translateY(-50%); left: 100%; top: 50%; }
         }
 
-        /* Rest of the styles */
-        @keyframes gradientShift {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-
+        /* UI Elements */
         .heading {
             font-size: 3.5em;
             color: white;
@@ -108,6 +178,23 @@
     </style>
 </head>
 <body>
+    <div class="sun">
+        <div class="center"></div>
+        <div class="ray r-1"></div>
+        <div class="ray r-2"></div>
+        <div class="ray r-3"></div>
+        <div class="ray r-4"></div>
+        <div class="ray r-5"></div>
+        <div class="ray r-6"></div>
+        <div class="ray r-7"></div>
+        <div class="ray r-8"></div>
+    </div>
+
+    <div class="moon">
+        <div class="loader"></div>
+        <div class="shadow"></div>
+    </div>
+
     <div class="airplane">✈️</div>
     
     <h1 class="heading">Travel Buddy</h1>
