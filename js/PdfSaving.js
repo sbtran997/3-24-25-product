@@ -1,11 +1,11 @@
 const puppeteer = require('puppeteer');
 
-async function generatePdf(htmlPath, pdfPath) {
+async function generatePdf(url, pdfPath) {
     const browser = await puppeteer.launch({ headless: true }); // Run in headless mode (no browser window)
     const page = await browser.newPage();
 
     try {
-        await page.goto(htmlPath, { waitUntil: 'networkidle0' }); // Wait for the page to load
+        await page.goto(url, { waitUntil: 'networkidle0' }); // Wait for the page to load
         const pdf = await page.pdf({
             path: pdfPath, // Save the PDF to this path
             format: 'A4',  // Optional: Set the page format (e.g., 'A4', 'Letter')
@@ -32,36 +32,49 @@ const pdfOutput = 'example.pdf'; // Replace with the desired path for the PDF
 generatePdf(targetUrl, pdfOutput);
 */
 
-const fs = require('fs');
+const https = require('https');
 const { JSDOM } = require('jsdom');
 
-function checkBodyClass(htmlPath, className) {
+async function checkBodyClass(url, className) {
   try {
-    const html = fs.readFileSync(htmlPath, 'utf-8');
-    const dom = new JSDOM(html);
+    const response = await new Promise((resolve, reject) => {
+      https.get(url, (res) => {
+        let data = '';
+        res.on('data', (chunk) => {
+          data += chunk;
+        });
+        res.on('end', () => {
+          resolve(data);
+        });
+        res.on('error', (error) => {
+          reject(error);
+        });
+      }).on('error', (error) => {
+        reject(error);
+      });
+    });
+
+    const dom = new JSDOM(response);
     const body = dom.window.document.body;
     return body.classList.contains(className);
   } catch (error) {
-    console.error("Error reading or parsing the file:", error);
+    console.error('Error:', error);
     return false;
   }
 }
 
 /*
-Example usage:
-const filePath = 'path/to/your/file.html';
+// Example usage:
+const url = 'https://www.example.com/';
 const classNameToCheck = 'my-class';
 
-const hasClass = checkBodyClass(filePath, classNameToCheck);
-
-if (hasClass) {
-  console.log(`The body element has the class "${classNameToCheck}".`);
-} else {
-  console.log(`The body element does not have the class "${classNameToCheck}".`);
-}
+checkBodyClass(url, classNameToCheck)
+  .then(hasClass => {
+    console.log(`Body has class ${classNameToCheck}:`, hasClass);
+  });
 */
 
-function savePdf(htmlPath, pdfPath, className) {
+function savePdf(url, pdfPath, className) {
     //Steps to take:
         //1: Check that the HTML page has the given class in its body using checkBodyClass function.
             //1.A: If it does, continue to step 2.
@@ -70,3 +83,11 @@ function savePdf(htmlPath, pdfPath, className) {
             //2.A: If it succeeds then inform the user and return
             //2.B: If it fails then catch the error and inform the user
 }
+
+const url = 'https://www.example.com/';
+const classNameToCheck = 'my-class';
+
+checkBodyClass(url, classNameToCheck)
+  .then(hasClass => {
+    console.log(`Body has class ${classNameToCheck}:`, hasClass);
+  });
