@@ -61,7 +61,7 @@ if (hasClass) {
 }
 */
 
-function savePDF(htmlPath, pdfPath, className) {
+function savePdf(htmlPath, pdfPath, className) {
     //Steps to take:
         //1: Check that the HTML page has the given class in its body using checkBodyClass function.
             //1.A: If it does, continue to step 2.
