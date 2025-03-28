@@ -64,3 +64,15 @@ button {
     cursor: pointer;
     border-radius: 5px;
 }
+
+.delete-button {
+    background-color: transparent;
+    border: none;
+    color: red;
+    font-weight: bold;
+    position: absolute;
+    bottom: 5px;
+    right: 10px;
+    cursor: pointer;
+    font-size: 16px;
+}
