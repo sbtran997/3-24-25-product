@@ -84,10 +84,13 @@ function savePdf(url, pdfPath, className) {
             //2.B: If it fails then catch the error and inform the user
 }
 
-const url = 'https://www.example.com/';
-const classNameToCheck = 'my-class';
+const url = 'https://odinsean.github.io/SoftwareGroupN_CS3203_SPRING2025/tests/PdfSaving_Test_Plan_Correct.html';
+const classNameToCheck = 'Travel Plan';
 
 checkBodyClass(url, classNameToCheck)
   .then(hasClass => {
     console.log(`Body has class ${classNameToCheck}:`, hasClass);
   });
+
+const pdfOutput = 'example.pdf'; // Replace with the desired path for the PDF
+generatePdf(url, pdfOutput);
