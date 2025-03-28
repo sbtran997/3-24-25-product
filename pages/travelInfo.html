@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    </head>
+    <body>
+
+        <input type="text" id="date-picker" placeholder="Select your free dates">
+        
+        <!-- Div to show selected dates -->
+        <div id="selected-dates">Your selected dates will appear here.</div>
+    
+        <!-- Flatpickr Script -->
+        <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+        <script>
+            // Define a class to store and update selected dates
+            class TripPlanner {
+                constructor() {
+                    this.selectedDates = [];
+                }
+    
+                // Method to update selected dates
+                setDates(dates) {
+                    this.selectedDates = dates;
+                    document.getElementById("selected-dates").innerText = 
+                        dates.length > 0 ? `Selected Dates: ${dates}` : "No dates selected";
+                }
+            }
+    
+            // Create an instance of the class
+            const tripPlanner = new TripPlanner();
+    
+            // Initialize Flatpickr and capture input
+            flatpickr("#date-picker", { 
+                mode: "range",
+                dateFormat: "Y-m-d",
+                onChange: function(selectedDates, dateStr) {
+                    tripPlanner.setDates(dateStr); // Update class variable & display in div
+                }
+            });
+    
+        </script>
+    
+    </body>
+</html>

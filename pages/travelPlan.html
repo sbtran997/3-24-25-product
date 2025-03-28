@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Casual Travel Planner</title>
+    <link rel="stylesheet" href="../css/travelPlan.css">
+</head>
+<body>
+    <h1>🌴 Casual Travel Planner</h1>
+    
+    <div class="plan-section">
+        <h3>Plan Your Relaxing Getaway</h3>
+        <input type="text" id="destination" placeholder="Enter destination">
+        <input type="number" id="budget" placeholder="Budget ($)">
+        <button onclick="generatePlan()">Create Travel Plan</button>
+    </div>
+
+    <div id="itinerary" class="plan-section" style="display: none;">
+        <h2>📋 Your Travel Itinerary</h2>
+        <div id="itinerary-content"></div>
+    </div>
+
+    <div id="budget-tracker" class="plan-section" style="display: none;">
+        <h3>💵 Budget Overview</h3>
+        <div id="budget-breakdown"></div>
+    </div>
+
+    <script src="../js/travelPlan.js"></script>
+</body>
+</html>
