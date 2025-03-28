@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <script src="../js/plans.js" ></script> // for editing the plan names
+    <script src="../js/plans.js" defer></script> // for editing the plan names
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Saved Plans Gallery</title>
@@ -10,22 +10,29 @@
 <body>
     <h2 style="text-align: center; font-size: 24px;">Saved Plans</h2>
     <a href="map.html" class="view-button">Back</a>
-    <div class="gallery">
+    <div class="gallery" id="gallery">
         <div class="plan-card">
             <img src="../images/plan1.jpg" alt="Plan 1" >
             <div class="plan-title">Plan 1</div>
             <a href="#" class="view-button">View</a>
+            <button class="copy-button">Copy</button>
         </div>
         <div class="plan-card">
             <img src="../images/plan2.jpg" alt="Plan 2" >
             <div class="plan-title">Plan 2</div>
             <a href="#" class="view-button">View</a>
+            <button class="copy-button">Copy</button>
         </div>
         <div class="plan-card">
             <img src="../images/plan3.jpg" alt="Plan 3" >
             <div class="plan-title">Plan 3</div>
             <a href="#" class="view-button">View</a>
+            <button class="copy-button">Copy</button>
         </div>
+    <div class="plan-card add-plan-card" id="addPlanBtn" style="cursor: pointer; text-align: center;">
+        <div style="font-size: 48px;">+</div>
+        <div>Add New Plan</div>
+    </div>
     </div>
 </body>
 </html>
