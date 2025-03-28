@@ -19,15 +19,16 @@ async function generatePdf(url, pdfPath) {
                      left: '1cm'
                  }
             });
-            //console.log(`PDF generated successfully: ${pdfPath}`);
+            console.log(`PDF generated successfully: ${pdfPath}`);
             return `PDF generated successfully: ${pdfPath}`;
         } catch (error) {
-            //console.error('Error generating PDF:', error);
-            return 'Error generating PDF!'
+            console.error('Error generating PDF:', error);
+            return 'Error generating PDF!';
         } finally {
             await browser.close();
         }
     } else {
+        console.log("That's not a valid travel plan!");
         return "That's not a valid travel plan!";
     }
 }
@@ -43,8 +44,7 @@ generatePdf(targetUrl, pdfOutput);
 
 /*
 Manual Testing Code:
-const url = 'https://odinsean.github.io/SoftwareGroupN_CS3203_SPRING2025/pages/plans.html?';
+const url = 'https://odinsean.github.io/SoftwareGroupN_CS3203_SPRING2025/pages/TotallyRealPage.html';
 const pdfOutput = 'example.pdf'; // Replace with the desired path for the PDF
-console.log(url.startsWith('https://odinsean.github.io/SoftwareGroupN_CS3203_SPRING2025/pages'))
 generatePdf(url, pdfOutput);
 */
