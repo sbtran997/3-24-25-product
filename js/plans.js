@@ -148,7 +148,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const newCard = document.querySelectorAll('.plan-card:not(.add-plan-card)')[afterCount - 1];
 
     const passed = afterCount === beforeCount + 1 && newCard.querySelector('.plan-title').innerText === "New Plan";
-    console.log('[Test Add Plan]', passed ? '✅ Passed' : '❌ Failed');
+    console.log('[Test Add Plan]', passed ? 'Passed' : 'Failed');
     }
     //testing the copy button for plans
     function testCopyPlan(beforeCount, originalTitle, originalImgSrc) {
@@ -164,13 +164,13 @@ document.addEventListener("DOMContentLoaded", function () {
             copiedTitle === originalTitle &&
             copiedImgSrc === originalImgSrc;
     
-        console.log(`[Test Copy Plan] Copied "${copiedTitle}":`, passed ? '✅ Passed' : '❌ Failed');
+        console.log(`[Test Copy Plan] Copied "${copiedTitle}":`, passed ? 'Passed' : 'Failed');
     }
     //testing the delete button for plans
     function testDeletePlan(beforeCount) {
         const afterCount = document.querySelectorAll('.plan-card:not(.add-plan-card)').length;
         const passed = afterCount === beforeCount - 1;
-        console.log('[Test Delete Plan]', passed ? '✅ Passed' : '❌ Failed');
+        console.log('[Test Delete Plan]', passed ? 'Passed' : 'Failed');
     }
     
     
