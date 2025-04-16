@@ -1,3 +1,22 @@
+// event listener for the localStorage of the Travel Checklist
+document.addEventListener("DOMContentLoaded", function () {
+    // Add this variable to access checklist data
+    let currentChecklistData = getChecklistData();
+    
+    // Add this function to get checklist data
+    function getChecklistData() {
+        return JSON.parse(localStorage.getItem('checklist')) || [];
+    }
+
+    // Add this function to output checklist data
+    function displayChecklistData() {
+        const checklistOutput = currentChecklistData
+            .map(item => `${item.checked ? '✓' : '◻'} ${item.text}`)
+            .join('\n');
+        alert(`Current Checklist Items:\n\n${checklistOutput}`);
+    }
+const checklistItems = getChecklistData();
+
 document.addEventListener("DOMContentLoaded", function () {
     const gallery = document.getElementById("gallery");
     const addBtn = document.getElementById("addPlanBtn");
