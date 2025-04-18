@@ -2,7 +2,7 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="viewport" content="width=device-width, initial-scale=0.1">
         <title>AI Travel Planner</title>
         <script src="https://mlc.ai/web-llm/dist/index.js"></script>
         <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
@@ -10,7 +10,7 @@
         <link rel="stylesheet" href="../css/styles.css">
         <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
         <style>
-            /* New home button styles */
+            
             .home-button {
                 position: fixed;
                 top: 20px;
@@ -28,16 +28,67 @@
             .home-button:hover {
                 background-color: #0056b3;
             }
+
+            .map-container, #chat-container {
+                width: 100%;
+                min-width: 550px;
+                max-width: 100%;
+                margin: 10px 0;
+            }
+
+            #map {
+                height: 400px;
+                width: 100% !important;
+                position: relative !important;
+            }
+
+            /* Currency converter with original dimensions */
+            .currency-converter {
+                width: fit-content;
+                padding: 15px;
+                background: black;
+                border-radius: 8px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+                margin: 15px auto; /* Centered with vertical spacing */
+            }
+
+            #chat-container {
+                padding: 15px;
+                box-sizing: border-box;
+            }
+
+            #airplaneBookingAPI {
+                margin: 10px 0;
+            }
         </style>
     </head>
     <body>
-        <!-- Back to Home button -->
         <a href="../index.html" class="home-button">Back to Home</a>
 
-        <div id="map"></div>
+        <div class="map-container">
+            <div id="map"></div>
+        </div>
+
+        <div class="currency-converter">
+            <h3>Currency Converter</h3>
+            <p>Your Budget: <span id="originalBudget"></span></p>
+            <label>Convert to: 
+                <select id="currencySelect">
+                    <option value="USD">US Dollar (USD)</option>
+                    <option value="EURO">Euro (EURO)</option>
+                    <option value="JPY">Japanese Yen (JPY)</option>
+                    <option value="RUBLE">Russian Ruble (RUBLE)</option>
+                    <option value="RENMINBI">Chinese Yuan (RENMINBI)</option>
+                    <option value="SKW">South Korean Won (SKW)</option>
+                </select>
+            </label>
+            <div id="convertedAmount"></div>
+        </div>
+
         <div id="airplaneBookingAPI">
             <a href="flightBooking.html" id="airplaneBookingAPI">Book a flight</a>
         </div>
+
         <div id="chat-container">
             <script src="https://cdn.jsdelivr.net/npm/@xenova/transformers@2.4.0"></script> 
             <h1>AI Travel Planner</h1>
@@ -51,5 +102,44 @@
                 <a href="checklist.html" class="checklist-button">Travel Checklist</a>
             </div>
         </div>
+
+        <script src="../js/MoneyPlan.js"></script>
+        
+        <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const savedBudget = localStorage.getItem("travelBudget") || "0";
+            document.getElementById("originalBudget").textContent = `${savedBudget} USD`;
+            
+            const currencySelect = document.getElementById("currencySelect");
+            const convertedAmountDiv = document.getElementById("convertedAmount");
+        
+            function updateConversion() {
+                const budget = parseFloat(savedBudget);
+                const targetCurrency = currencySelect.value;
+                
+                if (isNaN(budget) || budget <= 0) {
+                    convertedAmountDiv.innerHTML = "Invalid budget amount";
+                    return;
+                }
+        
+                const money = new Money(
+                    "User",
+                    budget,
+                    "USD",
+                    targetCurrency
+                );
+                
+                const converted = money.createMoneyPlan();
+                if (typeof converted === "number") {
+                    convertedAmountDiv.innerHTML = money.displayTotalCost();
+                } else {
+                    convertedAmountDiv.innerHTML = "Conversion error";
+                }
+            }
+        
+            currencySelect.addEventListener("change", updateConversion);
+            updateConversion();
+        });
+        </script>
     </body>
 </html>
