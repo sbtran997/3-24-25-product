@@ -112,6 +112,22 @@
   <script>
     // Load saved items on page load
     document.addEventListener('DOMContentLoaded', loadChecklist);
+    // Simple encryption functions
+    const SHIFT = 5;  // Change this number for different obfuscation
+
+    function simpleEncrypt(text) {
+      return text.split('').map(char => 
+        String.fromCharCode(char.charCodeAt(0) + SHIFT)
+      ).join('');
+    }
+
+    function simpleDecrypt(text) {
+      return text.split('').map(char => 
+        String.fromCharCode(char.charCodeAt(0) - SHIFT)
+      ).join('');
+    }
+
+    
 
     function createListItem(text = '', checked = false) {
       const id = Date.now().toString(); // Unique ID
@@ -146,22 +162,34 @@
       localStorage.removeItem('checklist');
     }
 
+    // Modified save/load functions
     function saveChecklist() {
       const items = Array.from(document.querySelectorAll('.checklist li')).map(li => ({
         text: li.querySelector('input[type="text"]').value,
         checked: li.querySelector('input[type="checkbox"]').checked
       }));
-      localStorage.setItem('checklist', JSON.stringify(items));
+      
+      const encrypted = simpleEncrypt(JSON.stringify(items));
+      localStorage.setItem('checklist', encrypted);
     }
 
     function loadChecklist() {
-      const savedItems = JSON.parse(localStorage.getItem('checklist')) || [];
-      const checklist = document.getElementById('checklist');
-      
-      savedItems.forEach(item => {
-        const li = createListItem(item.text, item.checked);
-        checklist.appendChild(li);
-      });
+      const encryptedData = localStorage.getItem('checklist');
+      if (!encryptedData) return;
+
+      try {
+        const decrypted = simpleDecrypt(encryptedData);
+        const savedItems = JSON.parse(decrypted);
+        const checklist = document.getElementById('checklist');
+        
+        savedItems.forEach(item => {
+          const li = createListItem(item.text, item.checked);
+          checklist.appendChild(li);
+        });
+      } catch (error) {
+        console.error('Decryption failed:', error);
+        localStorage.removeItem('checklist');
+      }
     }
 
     // Save on any change
