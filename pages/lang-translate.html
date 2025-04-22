@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Multi-Language Translator</title>
+    <style>
+        .loader {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #3498db;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        select, textarea, button {
+            margin: 10px 0;
+            width: 300px;
+            padding: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Multi-Language Translator</h1>
+        <select id="languageSelect">
+            <option value="en-fr">English to French</option>
+            <option value="en-es">English to Spanish</option>
+            <option value="en-de">English to German</option>
+            <option value="en-ru">English to Russian</option>
+        </select>
+        <textarea id="inputText" rows="4" placeholder="Enter text to translate..."></textarea>
+        <button id="translateBtn" disabled>Translate</button>
+        <div id="output"></div>
+    </div>
+
+<script type="module">
+    import { pipeline } from 'https://cdn.jsdelivr.net/npm/@xenova/transformers@2.17.2/dist/transformers.min.js';
+
+    const MODEL_MAP = {
+        'en-fr': 'Xenova/opus-mt-en-fr',
+        'en-es': 'Xenova/opus-mt-en-es',
+        'en-de': 'Xenova/opus-mt-en-de',
+        'en-ru': 'Xenova/opus-mt-en-ru',
+    };
+
+    let translator;
+    let isTranslating = false;
+    let currentModel = null;
+
+    async function initializeModel(modelId) {
+        if (currentModel === modelId) return;
+        
+        try {
+            document.getElementById('output').innerHTML = `
+                <div class="loader"></div>
+                <div>Loading ${modelId} model...</div>
+            `;
+            
+            translator = await pipeline('translation', MODEL_MAP[modelId], {
+                quantized: true,
+                progress_callback: (progress) => {
+                    document.getElementById('output').innerHTML = `
+                        <div class="loader"></div>
+                        <div>Loading: ${Math.round(progress * 100)}%</div>
+                    `;
+                }
+            });
+
+            currentModel = modelId;
+            document.getElementById('translateBtn').disabled = false;
+            document.getElementById('output').textContent = 'Ready to translate!';
+        } catch (error) {
+            document.getElementById('output').textContent = `Error: ${error.message}`;
+        }
+    }
+
+    async function translateText() {
+        if (isTranslating) return;
+        
+        try {
+            isTranslating = true;
+            const btn = document.getElementById('translateBtn');
+            const output = document.getElementById('output');
+            btn.disabled = true;
+            output.innerHTML = `<div class="loader"></div>`;
+            
+            const inputText = document.getElementById('inputText').value;
+            const modelId = document.getElementById('languageSelect').value;
+            
+            // Ensure model is loaded
+            await initializeModel(modelId);
+
+            const response = await translator(inputText, {
+                max_length: 400
+            });
+            
+            output.textContent = response[0].translation_text;
+        } catch (error) {
+            document.getElementById('output').textContent = `Error: ${error.message}`;
+        } finally {
+            isTranslating = false;
+            document.getElementById('translateBtn').disabled = false;
+        }
+    }
+
+    // Initialize default model
+    document.addEventListener('DOMContentLoaded', () => {
+        initializeModel('en-fr');
+    });
+
+    // Handle language change
+    document.getElementById('languageSelect').addEventListener('change', async (e) => {
+        document.getElementById('translateBtn').disabled = true;
+        await initializeModel(e.target.value);
+    });
+
+    document.getElementById('translateBtn').addEventListener('click', translateText);
+</script>
+</body>
+</html>
