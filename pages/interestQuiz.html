@@ -264,7 +264,7 @@
                     localStorage.setItem("interests", caesarCipher(JSON.stringify(selectedInterests), 7));
                     localStorage.setItem("travelBudget", caesarCipher(budgetInput.value, 7));
                     updateDisplay();
-                    alert("Preferences saved securely!");
+                    alert("Preferences saved successfully!");
                 } catch (e) {
                     console.error("Storage error:", e);
                     alert("Couldn't save preferences. Please try again.");
