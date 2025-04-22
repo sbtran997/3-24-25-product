@@ -107,7 +107,8 @@
         
         <script>
         document.addEventListener("DOMContentLoaded", () => {
-            const savedBudget = localStorage.getItem("travelBudget") || "0";
+            // const savedBudget = localStorage.getItem("travelBudget") || "0";
+            const savedBudget = caesarCipher(localStorage.getItem("travelBudget"), 7, false) || "";
             document.getElementById("originalBudget").textContent = `${savedBudget} USD`;
             
             const currencySelect = document.getElementById("currencySelect");
