@@ -107,32 +107,32 @@
         
         <script>
         document.addEventListener("DOMContentLoaded", () => {
-            // Caesar cipher functions
-            function caesarCipher(text, shift, encrypt = true) {
-                return text.split('').map(char => {
-                    // Handle lowercase letters
-                    if (/[a-z]/.test(char)) {
-                        const code = char.charCodeAt(0) - 97;
-                        const adjusted = encrypt ? (code + shift) % 26 : (code - shift + 26) % 26;
-                        return String.fromCharCode(adjusted + 97);
-                    }
-                    // Handle uppercase letters
-                    if (/[A-Z]/.test(char)) {
-                        const code = char.charCodeAt(0) - 65;
-                        const adjusted = encrypt ? (code + shift) % 26 : (code - shift + 26) % 26;
-                        return String.fromCharCode(adjusted + 65);
-                    }
-                    // Handle numbers
-                    if (/[0-9]/.test(char)) {
-                        const code = char.charCodeAt(0) - 48;
-                        const adjusted = encrypt ? (code + shift) % 10 : (code - shift + 10) % 10;
-                        return String.fromCharCode(adjusted + 48);
-                    }
-                    return char;
-                }).join('');
-            }
-            // const savedBudget = localStorage.getItem("travelBudget") || "0";
-            const savedBudget = caesarCipher(localStorage.getItem("travelBudget"), 7, false) || "";
+            // // Caesar cipher functions
+            // function caesarCipher(text, shift, encrypt = true) {
+            //     return text.split('').map(char => {
+            //         // Handle lowercase letters
+            //         if (/[a-z]/.test(char)) {
+            //             const code = char.charCodeAt(0) - 97;
+            //             const adjusted = encrypt ? (code + shift) % 26 : (code - shift + 26) % 26;
+            //             return String.fromCharCode(adjusted + 97);
+            //         }
+            //         // Handle uppercase letters
+            //         if (/[A-Z]/.test(char)) {
+            //             const code = char.charCodeAt(0) - 65;
+            //             const adjusted = encrypt ? (code + shift) % 26 : (code - shift + 26) % 26;
+            //             return String.fromCharCode(adjusted + 65);
+            //         }
+            //         // Handle numbers
+            //         if (/[0-9]/.test(char)) {
+            //             const code = char.charCodeAt(0) - 48;
+            //             const adjusted = encrypt ? (code + shift) % 10 : (code - shift + 10) % 10;
+            //             return String.fromCharCode(adjusted + 48);
+            //         }
+            //         return char;
+            //     }).join('');
+            // }
+            const savedBudget = localStorage.getItem("travelBudget") || "0";
+            // const savedBudget = caesarCipher(localStorage.getItem("travelBudget"), 7, false) || "";
             document.getElementById("originalBudget").textContent = `${savedBudget} USD`;
             
             const currencySelect = document.getElementById("currencySelect");
