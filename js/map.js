@@ -35,7 +35,7 @@ async function askAI() {
     responseDiv.innerText = "Thinking...";
 
     try {
-        const apiKey = "AIzaSyC90piHkP_eVyz0l5uogiFhvqBqx2FQ-wk"; // api key
+        const apiKey = "KEY"; // PUT API KEY HERE
 
         const url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=" + apiKey;
 
