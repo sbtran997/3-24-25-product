@@ -1,29 +1,67 @@
-// event listener for the localStorage of the Travel Checklist
-document.addEventListener("DOMContentLoaded", function () {
-    // Add this variable to access checklist data
-    let currentChecklistData = getChecklistData();
-    
-    // Add this function to get checklist data
-    function getChecklistData() {
-        return JSON.parse(localStorage.getItem('checklist')) || [];
-    }
-
-    // Add this function to output checklist data
-    function displayChecklistData() {
-        const checklistOutput = currentChecklistData
-            .map(item => `${item.checked ? '✓' : '◻'} ${item.text}`)
-            .join('\n');
-        alert(`Current Checklist Items:\n\n${checklistOutput}`);
-    }
-const checklistItems = getChecklistData();
 
 document.addEventListener("DOMContentLoaded", function () {
+    //gallery
     const gallery = document.getElementById("gallery");
     const addBtn = document.getElementById("addPlanBtn");
-// tests
+    const planModal = document.getElementById("planModal");
+    const planNameInput = document.getElementById("planNameInput");
+    const checklistPreview = document.getElementById("checklistPreview");
+    const savePlanBtn = document.getElementById("savePlanBtn");
+    const cancelPlanBtn = document.getElementById("cancelPlanBtn");
 
+    //checklist
+    const viewChecklistModal = document.getElementById('viewChecklistModal');
+    const viewChecklistTitle = document.getElementById('viewChecklistTitle');
+    const viewChecklistContent = document.getElementById('viewChecklistContent');
+    const closeViewChecklistBtn = document.getElementById('closeViewChecklistBtn');
 
+    // interests
+    const interestsPreview = document.getElementById('interestsPreview');
+    const viewInterestsContent = document.getElementById('viewInterestsContent');
 
+    //getting the checklist data from local storage
+    //decrypting checklist data
+    const SHIFT = 5;  // Same shift value
+
+    function simpleDecrypt(text) {
+    return text.split('').map(char => 
+        String.fromCharCode(char.charCodeAt(0) - SHIFT)
+    ).join('');
+    }
+
+    function getChecklistData() {
+        const encrypted = localStorage.getItem('checklist');
+        if (!encrypted) return [];
+      
+        try {
+          const decrypted = simpleDecrypt(encrypted);
+          return JSON.parse(decrypted) || [];
+        } catch (error) {
+          console.error('Decryption failed:', error);
+          return [];
+        }
+      }
+
+    function displayChecklistInModal() {
+        const checklistData = getChecklistData();
+        const checklistOutput = checklistData.map(item => `${item.checked ? '✓' : '◻'} ${item.text}`).join('\n');
+        checklistPreview.textContent = checklistOutput || "No items in checklist.";
+    }
+
+    //displaying interests
+    function displayInterests() {
+        const interests = JSON.parse(localStorage.getItem('interests')) || [];
+        const budget = localStorage.getItem('travelBudget') || "Not specified";
+    
+        if (interests.length === 0) {
+            return "No interests selected.";
+        }
+    
+        return `Selected Interests:\n${interests.join(", ")}\n\nBudget: $${budget}`;
+    }
+
+    
+    //making the title editable when clicked
     function makeEditable(titleDiv) {
         let currentText = titleDiv.innerText;
         let input = document.createElement("input");
@@ -42,13 +80,17 @@ document.addEventListener("DOMContentLoaded", function () {
         input.addEventListener("keypress", function (event) {
             if (event.key === "Enter") {
                 titleDiv.innerText = this.value.trim() || currentText;
+                savePlansToStorage()
             }
         });
     }
 
-    function createPlanCard(title = "New Plan", imageSrc = "../images/placeholder.jpg") {
+    function createPlanCard(title = "New Plan", imageSrc = "../images/placeholder.jpg", checklistText = "", interestsText = "") {
         const card = document.createElement("div");
         card.className = "plan-card";
+        // saving snapshots of the checklist and the interests
+        card.dataset.checklist = checklistText;
+        card.dataset.interests = interestsText;
 
         const img = document.createElement("img");
         img.src = imageSrc;
@@ -63,6 +105,20 @@ document.addEventListener("DOMContentLoaded", function () {
         viewBtn.href = "#";
         viewBtn.className = "view-button";
         viewBtn.innerText = "View";
+        viewBtn.addEventListener("click", (e) => {
+            e.preventDefault();
+            viewChecklistTitle.innerText = titleDiv.innerText;
+            viewChecklistContent.textContent = card.dataset.checklist || "No checklist available.";
+            viewInterestsContent.textContent = card.dataset.interests || "No interests available.";
+            viewChecklistModal.style.display = "flex";
+        });
+
+        // closing the checklist modal
+        closeViewChecklistBtn.addEventListener("click", () => {
+            viewChecklistModal.style.display = "none";
+        });
+        
+        
 
         const copyBtn = document.createElement("button");
         copyBtn.className = "copy-button";
@@ -71,19 +127,21 @@ document.addEventListener("DOMContentLoaded", function () {
             const beforeCount = document.querySelectorAll('.plan-card:not(.add-plan-card)').length;
             const originalTitle = titleDiv.innerText;
             const originalImgSrc = img.src;
+            const originalChecklist = card.dataset.checklist;
         
-            const copy = createPlanCard(originalTitle, originalImgSrc);
+            const copy = createPlanCard(originalTitle, originalImgSrc, originalChecklist);
             gallery.insertBefore(copy, addBtn);
         
             setTimeout(() => {
                 testCopyPlan(beforeCount, originalTitle, originalImgSrc);
             }, 50);
+            savePlansToStorage()
         });
         
 
         const deleteBtn = document.createElement("button");
         deleteBtn.className = "delete-button";
-        deleteBtn.innerText = "X";
+        deleteBtn.innerText = "❌";
         deleteBtn.addEventListener("click", () => {
             const planName = titleDiv.innerText;
             const confirmDelete = confirm(`Would you like to delete the plan: "${planName}"?`);
@@ -94,6 +152,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     testDeletePlan(beforeCount);
                 }, 50);
             }
+            savePlansToStorage()
         });
         
 
@@ -106,69 +165,66 @@ document.addEventListener("DOMContentLoaded", function () {
         return card;
     }
 
-    // Attach editable title and copy functionality to existing cards
-    document.querySelectorAll(".plan-card").forEach((card) => {
-        const titleDiv = card.querySelector(".plan-title");
-        const img = card.querySelector("img");
-        const copyBtn = card.querySelector(".copy-button");
-
-        if (titleDiv && img && !card.classList.contains("add-plan-card")) {
-            titleDiv.addEventListener("click", () => makeEditable(titleDiv));
-
-            if (copyBtn) {
-                copyBtn.addEventListener("click", () => {
-                    const beforeCount = document.querySelectorAll('.plan-card:not(.add-plan-card)').length;
-                    const originalTitle = titleDiv.innerText;
-                    const originalImgSrc = img.src;
-                
-                    const copy = createPlanCard(originalTitle, originalImgSrc);
-                    gallery.insertBefore(copy, addBtn);
-                
-                    setTimeout(() => {
-                        testCopyPlan(beforeCount, originalTitle, originalImgSrc);
-                    }, 50);
-                });                
-            }
-
-            if (!card.querySelector(".delete-button")) {
-                const deleteBtn = document.createElement("button");
-                deleteBtn.className = "delete-button";
-                deleteBtn.innerText = "❌";
-                deleteBtn.addEventListener("click", () => {
-                    const planName = titleDiv.innerText;
-                    const confirmDelete = confirm(`Would you like to delete the plan: "${planName}"?`);
-                    if (confirmDelete) {
-                        const beforeCount = document.querySelectorAll('.plan-card:not(.add-plan-card)').length;
-                        card.remove();
-                        setTimeout(() => {
-                            testDeletePlan(beforeCount);
-                        }, 50);
-                    }
-                });
-                
-                card.appendChild(deleteBtn);
-            }
-        }
-    });
-    // Add new blank plan when + is clicked
+    //displaying the modal for the plan
     addBtn.addEventListener("click", () => {
-    const beforeCount = document.querySelectorAll('.plan-card:not(.add-plan-card)').length;
-    const newCard = createPlanCard();
-    gallery.insertBefore(newCard, addBtn);
-
-    setTimeout(() => {
-        testAddPlan(beforeCount);
-    }, 50);
+        planModal.style.display = "flex"; // Show modal
+        displayChecklistInModal();        // Load checklist data
+        planNameInput.value = "";          // Reset input
+        interestsPreview.textContent = displayInterests(); // Load interests data
     });
 
-    //testing the add button for plans
-    function testAddPlan(beforeCount) {
-    const afterCount = document.querySelectorAll('.plan-card:not(.add-plan-card)').length;
-    const newCard = document.querySelectorAll('.plan-card:not(.add-plan-card)')[afterCount - 1];
+    savePlanBtn.addEventListener("click", () => {
+        const planName = planNameInput.value.trim() || "New Plan";
+        const beforeCount = document.querySelectorAll('.plan-card:not(.add-plan-card)').length;
+        const checklistText = checklistPreview.textContent;
+        const interestsText = interestsPreview.textContent;
+        const newCard = createPlanCard(planName, "../images/placeholder.jpg", checklistText, interestsText);
+        gallery.insertBefore(newCard, addBtn);
 
-    const passed = afterCount === beforeCount + 1 && newCard.querySelector('.plan-title').innerText === "New Plan";
-    console.log('[Test Add Plan]', passed ? 'Passed' : 'Failed');
+        planModal.style.display = "none"; // Close modal
+        setTimeout(() => {
+            testAddPlan(beforeCount, planName);
+        }, 50);
+        savePlansToStorage();
+    });
+
+    //saving plans to local storage so that they are not lost on refresh
+    function savePlansToStorage() {
+        const plans = Array.from(document.querySelectorAll('.plan-card:not(.add-plan-card)')).map(card => ({
+            title: card.querySelector('.plan-title').innerText,
+            imageSrc: card.querySelector('img').src,
+            checklist: card.dataset.checklist || "",
+            interests: card.dataset.interests || ""
+        }));
+    
+        localStorage.setItem('plans', JSON.stringify(plans));
+    }    
+
+    // Cancel button
+    cancelPlanBtn.addEventListener("click", () => {
+        planModal.style.display = "none";
+    });
+
+    loadPlansFromStorage();
+
+    //loading plans from local storage so that they are not lost on refresh
+    function loadPlansFromStorage() {
+        const savedPlans = JSON.parse(localStorage.getItem('plans')) || [];
+        savedPlans.forEach(plan => {
+            const newCard = createPlanCard(plan.title, plan.imageSrc, plan.checklist, plan.interests);
+            gallery.insertBefore(newCard, addBtn);
+        });
     }
+    
+    //testing the add button for plans
+    function testAddPlan(beforeCount, expectedTitle) {
+        const afterCount = document.querySelectorAll('.plan-card:not(.add-plan-card)').length;
+        const newCard = document.querySelectorAll('.plan-card:not(.add-plan-card)')[afterCount - 1];
+    
+        const passed = afterCount === beforeCount + 1 && newCard.querySelector('.plan-title').innerText === expectedTitle;
+        console.log('[Test Add Plan]', passed ? 'Passed' : 'Failed');
+    }
+    
     //testing the copy button for plans
     function testCopyPlan(beforeCount, originalTitle, originalImgSrc) {
         const allCards = Array.from(document.querySelectorAll('.plan-card:not(.add-plan-card)'));

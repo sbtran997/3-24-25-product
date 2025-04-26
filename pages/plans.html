@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <script src="../js/plans.js" defer></script> // for editing the plan names
+    <script src="../js/plans.js" defer></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Saved Plans Gallery</title>
@@ -10,29 +10,44 @@
 <body>
     <h2 style="text-align: center; font-size: 24px;">Saved Plans</h2>
     <a href="map.html" class="view-button">Back</a>
+
     <div class="gallery" id="gallery">
-        <div class="plan-card">
-            <img src="../images/plan1.jpg" alt="Plan 1" >
-            <div class="plan-title">Plan 1</div>
-            <a href="#" class="view-button">View</a>
-            <button class="copy-button">Copy</button>
+        <div class="plan-card add-plan-card" id="addPlanBtn" style="cursor: pointer; text-align: center;">
+            <div style="font-size: 48px;">+</div>
+            <div>Save current plan</div>
         </div>
-        <div class="plan-card">
-            <img src="../images/plan2.jpg" alt="Plan 2" >
-            <div class="plan-title">Plan 2</div>
-            <a href="#" class="view-button">View</a>
-            <button class="copy-button">Copy</button>
-        </div>
-        <div class="plan-card">
-            <img src="../images/plan3.jpg" alt="Plan 3" >
-            <div class="plan-title">Plan 3</div>
-            <a href="#" class="view-button">View</a>
-            <button class="copy-button">Copy</button>
-        </div>
-    <div class="plan-card add-plan-card" id="addPlanBtn" style="cursor: pointer; text-align: center;">
-        <div style="font-size: 48px;">+</div>
-        <div>Add New Plan</div>
     </div>
+
+    <div id="planModal" class="modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; 
+        background: rgba(0,0,0,0.5); justify-content: center; align-items: center;">
+        <div style="background:white; padding:20px; border-radius:8px; max-width:400px; width:90%;">
+            <h3>Create New Plan</h3>
+            <label for="planNameInput">Plan Name:</label><br>
+            <input type="text" id="planNameInput" placeholder="Enter plan name" style="width:100%; margin-bottom:10px;"><br>
+
+            <h4>Checklist Preview:</h4>
+            <pre id="checklistPreview" style="background:#fff; color:#000; padding:10px; border:1px solid #ccc; height:150px; overflow:auto;"></pre>
+            
+            <h4>Travel Interests:</h4>
+            <pre id="interestsPreview" style=" background: #fff; color: #000; padding: 10px; border: 1px solid #ccc; border-radius: 6px; height: 100px; overflow: auto;"></pre>
+            
+            <button id="savePlanBtn" style="margin-top:10px;">Save Plan</button>
+            <button id="cancelPlanBtn" style="margin-top:10px;">Cancel</button>
+        </div>
     </div>
+
+    <div id="viewChecklistModal" class="modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; 
+        background: rgba(0,0,0,0.5); justify-content: center; align-items: center;">
+        <div style="background:white; padding:20px; border-radius:8px; max-width:400px; width:90%;">
+            <h3 id="viewChecklistTitle">Plan Checklist</h3>
+            <pre id="viewChecklistContent" style="background:#fff; color:#000; padding:10px; border:1px solid #ccc; height:150px; overflow:auto;"></pre>
+            <h4>Travel Interests:</h4>
+            <pre id="viewInterestsContent" style=" background: #fff; color: #000; padding: 10px; border: 1px solid #ccc; border-radius: 6px; height: 100px; overflow: auto;"></pre>
+            
+            <button id="closeViewChecklistBtn" style="margin-top:10px;">Close</button>
+        </div>
+    </div>
+
+
 </body>
 </html>
