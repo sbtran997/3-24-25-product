@@ -128,8 +128,9 @@ document.addEventListener("DOMContentLoaded", function () {
             const originalTitle = titleDiv.innerText;
             const originalImgSrc = img.src;
             const originalChecklist = card.dataset.checklist;
+            const originalInterests = card.dataset.interests;
         
-            const copy = createPlanCard(originalTitle, originalImgSrc, originalChecklist);
+            const copy = createPlanCard(originalTitle, originalImgSrc, originalChecklist, originalInterests);
             gallery.insertBefore(copy, addBtn);
         
             setTimeout(() => {
