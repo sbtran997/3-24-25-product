@@ -18,17 +18,17 @@
         </div>
     </div>
 
-    <div id="planModal" class="modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; 
-        background: rgba(0,0,0,0.5); justify-content: center; align-items: center;">
+    <div id="planModal" class="modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.5); justify-content: center; align-items: center;">
         <div style="background:white; padding:20px; border-radius:8px; max-width:400px; width:90%;">
-            <h3>Create New Plan</h3>
+            <h2 style="margin-bottom: 10px; color:#000;">Create New Plan</h2>
+
             <label for="planNameInput">Plan Name:</label><br>
             <input type="text" id="planNameInput" placeholder="Enter plan name" style="width:100%; margin-bottom:10px;"><br>
 
-            <h4>Checklist Preview:</h4>
+            <h4 style="margin-top:10px; color:#000;">Checklist Preview</h4>
             <pre id="checklistPreview" style="background:#fff; color:#000; padding:10px; border:1px solid #ccc; height:150px; overflow:auto;"></pre>
             
-            <h4>Travel Interests:</h4>
+            <h4 style="margin-top:20px; color:#000;">Travel Interests Preview</h4>
             <pre id="interestsPreview" style=" background: #fff; color: #000; padding: 10px; border: 1px solid #ccc; border-radius: 6px; height: 100px; overflow: auto;"></pre>
             
             <button id="savePlanBtn" style="margin-top:10px;">Save Plan</button>
@@ -36,12 +36,14 @@
         </div>
     </div>
 
-    <div id="viewChecklistModal" class="modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; 
-        background: rgba(0,0,0,0.5); justify-content: center; align-items: center;">
+    <div id="viewChecklistModal" class="modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.5); justify-content: center; align-items: center;">
         <div style="background:white; padding:20px; border-radius:8px; max-width:400px; width:90%;">
-            <h3 id="viewChecklistTitle">Plan Checklist</h3>
+            <h3 id="viewChecklistTitle" style="margin-bottom: 20px; color:#000;">Plan Checklist</h3>
+
+            <h4 style="margin-top:10px; color:#000;">Checklist</h4>
             <pre id="viewChecklistContent" style="background:#fff; color:#000; padding:10px; border:1px solid #ccc; height:150px; overflow:auto;"></pre>
-            <h4>Travel Interests:</h4>
+            
+            <h4 style="margin-top:20px; color:#000;">Travel Interests</h4>
             <pre id="viewInterestsContent" style=" background: #fff; color: #000; padding: 10px; border: 1px solid #ccc; border-radius: 6px; height: 100px; overflow: auto;"></pre>
             
             <button id="closeViewChecklistBtn" style="margin-top:10px;">Close</button>
