@@ -61,18 +61,7 @@ body {
     background-color: #0056b3;
 }
 
-/* For the planner's text input */
-#Planner textarea#userInput {
-    width: 100%;
-    max-width: 500px;
-    height: 100px;
-    margin: 20px auto;
-    display: block;
-    border-radius: 8px;
-    border: 1px solid #ccc;
-    padding: 10px;
-}
-
+/* Planner content */
 .planner-content {
     max-width: 1200px;
     margin: 0 auto;
@@ -81,38 +70,86 @@ body {
     box-sizing: border-box;
 }
 
-/* Ensure planner content container has proper constraints */
-#Planner {
-    width: 100%;
-    box-sizing: border-box;
-    max-width: 1200px; /* Prevent content from stretching too wide */
-    margin: 0 auto;
-    padding: 20px;
-}
-
+/* Chat container grid layout */
 #chat-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 20px;
     width: 100%;
-    min-width: 550px;
-    max-width: 100%;
-    margin: 10px 0;
+    background: #0d0d0d;
+    border-radius: 12px;
 }
 
+/* AI Input Section */
+.ai-input-section {
+    background: #1a1a1a;
+    padding: 25px;
+    border-radius: 12px;
+    border: 1px solid #333;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+}
+
+/* Response Section */
+#response {
+    background: #1a1a1a;
+    padding: 25px;
+    border-radius: 12px;
+    border: 1px solid #333;
+    height: 350px;
+    overflow-y: auto;
+    color: #e0e0e0;
+    line-height: 1.6;
+}
+
+/* Text Input */
+#Planner textarea#userInput {
+    width: 100%;
+    height: 150px;
+    background: #222;
+    border: 1px solid #444;
+    color: white;
+    font-size: 16px;
+    padding: 15px;
+    margin: 20px 0;
+    border-radius: 8px;
+}
+
+/* Buttons */
+.button-group {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin: 15px 0;
+}
+
+button, .checklist-button {
+    margin: 0; 
+    padding: 12px 25px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    background: linear-gradient(135deg, #007bff, #0056b3);
+    color: white;
+    font-size: 16px;
+    font-weight: 600;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+button:hover, .checklist-button:hover {
+    background: linear-gradient(135deg, #0056b3, #003d80);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0,123,255,0.3);
+}
+
+/* Map container */
 .map-container {
     width: 100%;
     min-width: 550px;
     margin: 10px 0;
-}
-
-#chat-container {
-    width: 100%;
-    max-width: 600px; 
-    margin: 0 auto;
-    text-align: center; 
-}
-#map {
-    height: 100%;
-    width: 100% !important;
-    position: relative !important;
 }
 
 /* Currency converter */
@@ -132,25 +169,18 @@ body {
     margin: 10px 0;
 }
 
-
-/* Buttons */
-.button-group {
-    display: flex;
-    gap: 15px; /* Space between buttons */
-    flex-wrap: wrap;
-    justify-content: center;
-    margin: 15px 0;
-}
-button, .checklist-button {
-    margin: 0; 
-    padding: 10px 20px;
-    border-radius: 8px;
-    border: none;
-    cursor: pointer;
-    background-color: #007bff;
-    color: white;
-    font-size: 16px;
-}
-button:hover, .checklist-button:hover {
-    background-color: #0056b3;
+@media (max-width: 768px) {
+    #chat-container {
+        grid-template-columns: 1fr;
+        padding: 15px;
+    }
+    
+    #response {
+        height: auto;
+        min-height: 200px;
+    }
+    
+    .map-container {
+        min-width: unset;
+    }
 }
