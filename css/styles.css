@@ -90,12 +90,24 @@ body {
     padding: 20px;
 }
 
-/* Map container */
-.map-container, #chat-container {
+#chat-container {
     width: 100%;
     min-width: 550px;
     max-width: 100%;
     margin: 10px 0;
+}
+
+.map-container {
+    width: 100%;
+    min-width: 550px;
+    margin: 10px 0;
+}
+
+#chat-container {
+    width: 100%;
+    max-width: 600px; 
+    margin: 0 auto;
+    text-align: center; 
 }
 #map {
     height: 100%;
