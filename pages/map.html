@@ -24,12 +24,20 @@
     <div id="Planner" class="tabcontent">
         <div class="planner-content">
             <div id="chat-container">
-                <h1>AI Travel Planner</h1>
-                <textarea id="userInput" placeholder="Ask for travel plans..."></textarea>
-                <br>
-                <button onclick="askAI()">Ask AI</button>
-                <div id="response">AI Response will appear here...</div>
-                <div class="button-group">
+                <div class="ai-input-section">
+                    <h1>AI Travel Planner</h1>
+                    <textarea id="userInput" placeholder="Ask for travel plans..."></textarea>
+                    <button onclick="askAI()">Ask AI</button>
+                </div>
+
+                <div id="response">
+                    <h3>AI Response</h3>
+                    <div class="response-content">
+                         <div id="response">AI Response will appear here...</div>
+                    </div>
+                </div>
+                
+                <div class="button-group" style="grid-column: span 2;">
                     <button onclick="location.href='plans.html'" type="button">Saved Plans</button>
                     <a href="checklist.html" class="checklist-button">Travel Checklist</a>
                 </div>
