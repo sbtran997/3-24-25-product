@@ -22,41 +22,40 @@
 
     <!-- Planner Tab -->
     <div id="Planner" class="tabcontent">
-        <div id="chat-container">
-            <h1>AI Travel Planner</h1>
-            <textarea id="userInput" placeholder="Ask for travel plans..."></textarea>
-            <br>
-            <button onclick="askAI()">Ask AI</button>
-            <div id="response">AI Response will appear here...</div>
-            <div class="button-group">
-                <form action="plans.html">
-                    <button type="submit">Saved Plans</button>
-                </form>
-                <a href="checklist.html" class="checklist-button">Travel Checklist</a>
+        <div class="planner-content">
+            <div id="chat-container">
+                <h1>AI Travel Planner</h1>
+                <textarea id="userInput" placeholder="Ask for travel plans..."></textarea>
+                <br>
+                <button onclick="askAI()">Ask AI</button>
+                <div id="response">AI Response will appear here...</div>
+                <div class="button-group">
+                    <button onclick="location.href='plans.html'" type="button">Saved Plans</button>
+                    <a href="checklist.html" class="checklist-button">Travel Checklist</a>
+                </div>
+            </div>
+    
+            <div class="currency-converter">
+                <h3>Currency Converter</h3>
+                <p>Your Budget: <span id="originalBudget"></span></p>
+                <label>Convert to: 
+                    <select id="currencySelect">
+                        <option value="USD">US Dollar (USD)</option>
+                        <option value="EURO">Euro (EURO)</option>
+                        <option value="JPY">Japanese Yen (JPY)</option>
+                        <option value="RUBLE">Russian Ruble (RUBLE)</option>
+                        <option value="RENMINBI">Chinese Yuan (RENMINBI)</option>
+                        <option value="SKW">South Korean Won (SKW)</option>
+                    </select>
+                </label>
+                <div id="convertedAmount"></div>
+            </div>
+    
+            <div id="airplaneBookingAPI">
+                <a href="flightBooking.html">Book a flight</a>
             </div>
         </div>
-
-        <div class="currency-converter">
-            <h3>Currency Converter</h3>
-            <p>Your Budget: <span id="originalBudget"></span></p>
-            <label>Convert to: 
-                <select id="currencySelect">
-                    <option value="USD">US Dollar (USD)</option>
-                    <option value="EURO">Euro (EURO)</option>
-                    <option value="JPY">Japanese Yen (JPY)</option>
-                    <option value="RUBLE">Russian Ruble (RUBLE)</option>
-                    <option value="RENMINBI">Chinese Yuan (RENMINBI)</option>
-                    <option value="SKW">South Korean Won (SKW)</option>
-                </select>
-            </label>
-            <div id="convertedAmount"></div>
-        </div>
-
-        <div id="airplaneBookingAPI">
-            <a href="flightBooking.html">Book a flight</a>
-        </div>
     </div>
-
     <!-- Map Tab -->
     <div id="Map" class="tabcontent">
         <div class="map-container" style="height: 100%;">
