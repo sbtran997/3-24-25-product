@@ -73,6 +73,14 @@ body {
     padding: 10px;
 }
 
+.planner-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
 /* Ensure planner content container has proper constraints */
 #Planner {
     width: 100%;
