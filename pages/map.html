@@ -39,11 +39,15 @@
             background-color: #555;
         }
         .tabcontent {
-            display: none;
+            display: flex; 
+            flex-direction: column;
+            align-items: center; 
+            justify-content: center;
             padding: 20px;
-            height: calc(100vh - 70px); /* Adjust based on header height */
+            height: calc(100vh - 70px);
             overflow-y: auto;
         }
+
         .home-button {
             position: fixed;
             top: 20px;
@@ -76,7 +80,7 @@
                 margin: 10px 0;
         }
         #map {
-                height: 800px;
+                height: 100%;
                 width: 100% !important;
                 position: relative !important;
         }
