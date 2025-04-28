@@ -90,6 +90,8 @@ body {
     border-radius: 12px;
     border: 1px solid #333;
     box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    position: relative; 
+    overflow: hidden; 
 }
 
 /* Response Section */
@@ -106,7 +108,7 @@ body {
 
 /* Text Input */
 #Planner textarea#userInput {
-    width: 100%;
+    width: calc(100% - 30px;
     height: 150px;
     background: #222;
     border: 1px solid #444;
@@ -115,6 +117,8 @@ body {
     padding: 15px;
     margin: 20px 0;
     border-radius: 8px;
+    box-sizing: border-box; 
+    resize: vertical; 
 }
 
 /* Buttons */
