@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Travel Interest Quiz</title>
     <style>
+        /* Dark theme styling for better contrast and modern look */
         body {
             font-family: Arial, sans-serif;
             margin: 0;
@@ -16,7 +17,8 @@
             align-items: center;
             min-height: 100vh;
         }
-        
+
+        /* Main quiz container styling */
         .quiz-container {
             background: #1e1e1e;
             padding: 30px;
@@ -118,33 +120,38 @@
         <h1>Travel Interest Quiz</h1>
         
         <div class="quiz-content">
+            <!-- Interest selection section -->
             <div class="input-group">
                 <p>What topics are you most interested in?</p>
-                
+                <!-- Checkbox options for interests -->
                 <label><input type="checkbox" id="interest-food" name="interest" value="food"> Food</label>
                 <label><input type="checkbox" id="interest-sports" name="interest" value="sports"> Sports</label>
                 <label><input type="checkbox" id="interest-beaches" name="interest" value="beaches"> Beaches</label>
                 <label><input type="checkbox" id="interest-entertainment" name="interest" value="entertainment"> Entertainment</label>
                 <label><input type="checkbox" id="interest-music" name="interest" value="music"> Music</label>
+                <!-- Error message container for interest selection -->
                 <div id="interest-error" class="error-message">Please select at least one interest </div>
             </div>
-            
+            <!-- Budget input section -->
             <div class="input-group">
                 <p>Enter your budget ($):</p>
                     <input type="number" id="budgetInput" placeholder="Enter budget" min="0" step="10">
+                    <!-- Budget validation error messages -->
                     <div id="budget-error" class="error-message">Please enter a valid budget amount ($10 minimum) </div>
                     <div id="budget-boundary-error" class="error-message">Please enter a realistic valid budget amount </div>
             </div>
-            
+            <!-- Display area for user selections -->
             <textarea id="selections-display" readonly>Your selections will appear here...</textarea>
-            
+            <!-- Action buttons -->
             <button id="submit-quiz">Submit Preferences</button>
             <button id="continue-btn" class="continue-btn" onclick="window.location.href='map.html'">Continue to Travel Planner</button>
         </div>
     </div>
 
     <script>
+        // Initialize when DOM content is loaded
         document.addEventListener("DOMContentLoaded", function() {
+            // DOM element references
             const submitBtn = document.getElementById("submit-quiz");
             const checkboxes = document.querySelectorAll("input[name='interest']");
             const budgetInput = document.getElementById("budgetInput");
@@ -164,9 +171,10 @@
                 display.value = `Selected Interests:\n${selected.join(", ") || "None"}\n\nBudget: $${budget}`;
             }
 
-            // Enhanced validation function
+            // Validate budget input and CWE Check
             function validateBudget() {
                 const budget = budgetInput.value.trim();
+                // Basic validation checks
                 if (!budget || isNaN(budget) || budget < 10) {
                     budgetError.style.display = 'block';
                     budgetInput.style.borderColor = '#ff6b6b';
@@ -176,12 +184,13 @@
                     budgetInput.style.borderColor = '#ff6b6b';
                     return false;
                 }
+                // Clear errors if valid
                 budgetError.style.display = 'none';
                 budgetInput.style.borderColor = '#444';
                 return true;
             }
             
-            // Set up event listeners
+            // Event listeners for real-time updates
             checkboxes.forEach(cb => cb.addEventListener("change", updateDisplay));
             checkboxes.forEach(checkbox => {
                 checkbox.addEventListener("change", function() {
@@ -197,7 +206,7 @@
                 updateDisplay();
             });
             
-            // Load saved preferences
+            // Load saved preferences from localStorage
             const savedInterests = JSON.parse(localStorage.getItem("interests")) || [];
             const savedBudget = localStorage.getItem("travelBudget") || ""; // Load budget
             
@@ -207,7 +216,7 @@
             budgetInput.value = savedBudget; // Set budget value
             updateDisplay();
             
-            // Submit handler
+            // Save preferences handler
             submitBtn.addEventListener("click", function() {
                 let selectedInterests = [];
                 document.querySelectorAll("input[name='interest']:checked").forEach(cb => {
